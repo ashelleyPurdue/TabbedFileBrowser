@@ -3,20 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace TabbedFileBrowser
 {
     public class TabbedFileBrowserViewModel : ITabbedFileBrowserViewModel
     {
-        public IReadOnlyList<ITabViewModel> Tabs => throw new NotImplementedException();
+        // Public properties
+        public IReadOnlyList<ITabViewModel> Tabs => tabs;
+        public ITabViewModel CurrentTab => Tabs[SelectedTabIndex];
 
-        public int SelectedTabIndex
+        public int SelectedTabIndex { get; set; }
+
+        // Private fields
+        private List<ITabViewModel> tabs = new List<ITabViewModel>();
+        
+        // Constructor
+        public TabbedFileBrowserViewModel()
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            // Start out with one tab pointed at the working directory
+            var workingDir = Directory.GetCurrentDirectory();
+            var initialTab = new TabViewModel(workingDir);
+
+            tabs.Add(initialTab);
         }
 
-        public ITabViewModel CurrentTab => Tabs[SelectedTabIndex];
+        // Public interface methods
 
         public void NewTab(string folderPath) => throw new NotImplementedException();
         public void CloseTab(int index) => throw new NotImplementedException();
