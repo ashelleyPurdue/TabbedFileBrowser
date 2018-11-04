@@ -7,5 +7,7 @@ namespace Tests
     [TestClass]
     public class TabTests
     {
+        [TestMethod]
+        public void AlwaysPasses() { }
     }
 }
