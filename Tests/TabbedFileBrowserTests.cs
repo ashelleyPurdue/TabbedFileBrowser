@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Linq;
 using System.IO;
 using TabbedFileBrowser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,6 +14,18 @@ namespace Tests
         const string TEST_DIR_PATH = "TestFiles";
 
         private ITabbedFileBrowserViewModel browser;
+
+        private void AssertVisibleFiles(params string[] expected)
+        {
+            var expectedSorted = expected.OrderBy(s => s);
+
+            var actualSorted = browser.CurrentTab
+                                        .VisibleFiles
+                                        .Select(f => f.Name)
+                                        .OrderBy(s => s);
+
+            Assert.IsTrue(expectedSorted.SequenceEqual(actualSorted));
+        }
 
         [ClassInitialize]
         public static void ResetTestDir(TestContext context)
@@ -55,5 +68,13 @@ namespace Tests
             string actual = browser.CurrentTab.CurrentFolder;
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void VisibleFilesCorrectOnStartup() => AssertVisibleFiles
+        (
+            ".gitkeep",
+            "folders",
+            "foo_file.txt"
+        );
     }
 }
