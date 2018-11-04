@@ -29,5 +29,6 @@ namespace TabbedFileBrowser
         void MoveUp();
         void MoveForward();
         void MoveBack();
+        void Refresh();
     }
 }

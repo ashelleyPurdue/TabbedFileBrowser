@@ -9,7 +9,7 @@ namespace TabbedFileBrowser
 {
     public class TabViewModel : ITabViewModel
     {
-        public IEnumerable<FileSystemInfo> VisibleFiles => throw new NotImplementedException();
+        public IEnumerable<FileSystemInfo> VisibleFiles { get; set; }
 
         public string CurrentFolder { get; private set; }
         public string Title         => throw new NotImplementedException();
@@ -28,6 +28,14 @@ namespace TabbedFileBrowser
             // TODO: Push this to a navigation stack of some sort
             // instead of directly changing the folder
             CurrentFolder = Path.GetFullPath(path);
+            Refresh();
+        }
+
+        public void Refresh()
+        {
+            // TODO: Apply filtering and sorting
+            var currentFolder = new DirectoryInfo(CurrentFolder);
+            VisibleFiles = currentFolder.EnumerateFileSystemInfos();
         }
     }
 }
