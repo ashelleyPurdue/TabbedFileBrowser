@@ -13,7 +13,8 @@
         <ListBox
             DockPanel.Dock="Top"
             Margin="5"
-            ItemsSource="{Binding Tabs}"/>
+            ItemsSource="{Binding Tabs}"
+            SelectedIndex="{Binding SelectedTabIndex}"/>
 
         <TextBox 
             DockPanel.Dock="Top"
