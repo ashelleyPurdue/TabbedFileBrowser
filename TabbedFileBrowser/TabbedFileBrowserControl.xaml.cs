@@ -29,5 +29,52 @@ namespace TabbedFileBrowser
             ViewModel = new TabbedFileBrowserViewModel();
             DataContext = ViewModel;
         }
+
+        // Misc methods
+
+        private int GetIndexOfCloseButton(Button closeButton)
+        {
+            IEnumerable<DependencyObject> GetChildren(DependencyObject parent)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+                {
+                    yield return VisualTreeHelper.GetChild(parent, i);
+                }
+            }
+
+            bool HasCloseButtonAsChild(DependencyObject item)
+            {
+                // Base case: we *are* the close button
+                if (item == closeButton)
+                    return true;
+
+                // Recursive case: search all the children
+                foreach (var child in GetChildren(item))
+                {
+                    if (HasCloseButtonAsChild(child))
+                        return true;
+                }
+
+                // We didn't find it, so false.
+                return false;
+            }
+
+            var itemsInListbox = ViewModel.Tabs
+                                            .Select(t => tabsList.ItemContainerGenerator.ContainerFromItem(t))
+                                            .ToList();
+
+            return itemsInListbox.FindIndex(HasCloseButtonAsChild);
+
+            // We didn't find it, so throw
+            throw new Exception("Couldn't find tab that goes with this close button.");
+        }
+
+        // Event handlers
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            int index = GetIndexOfCloseButton((Button)sender);
+            ViewModel.CloseTab(index);
+        }
     }
 }

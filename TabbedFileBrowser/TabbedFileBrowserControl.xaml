@@ -11,6 +11,7 @@
         <!-- TODO: Find some way to style all controls at once, to make this DRY -->
 
         <ListBox
+            x:Name="tabsList"
             DockPanel.Dock="Top"
             Margin="5"
             ItemsSource="{Binding Tabs}"
@@ -33,7 +34,9 @@
                     <StackPanel Orientation="Horizontal">
                         
                         <TextBlock Text="{Binding}" Margin="0,0,5,0"/>
-                        <Button Content="x"/>
+                        <Button 
+                            Content="x"
+                            Click="CloseButton_Click"/>
 
                     </StackPanel>
                     
