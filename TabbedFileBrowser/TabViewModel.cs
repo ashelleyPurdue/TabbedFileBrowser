@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ namespace TabbedFileBrowser
 {
     public class TabViewModel : ITabViewModel
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public IEnumerable<FileSystemInfo> VisibleFiles { get; set; }
 
         public string CurrentFolder { get; private set; }

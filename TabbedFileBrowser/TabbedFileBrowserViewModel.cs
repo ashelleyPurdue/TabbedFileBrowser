@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.ComponentModel;
 
 namespace TabbedFileBrowser
 {
     public class TabbedFileBrowserViewModel : ITabbedFileBrowserViewModel
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         // Public properties
         public IReadOnlyList<ITabViewModel> Tabs => tabs;
         public ITabViewModel CurrentTab => Tabs[SelectedTabIndex];
