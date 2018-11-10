@@ -15,7 +15,14 @@ namespace TabbedFileBrowser
         public IEnumerable<FileSystemInfo> VisibleFiles { get; set; }
 
         public string CurrentFolder { get; private set; }
-        public string Title         => throw new NotImplementedException();
+        public string Title
+        {
+            get
+            {
+                string noTrailingSlash = CurrentFolder.TrimEnd(Path.DirectorySeparatorChar);
+                return Path.GetFileName(noTrailingSlash);
+            }
+        }
 
         public void MoveBack()      => throw new NotImplementedException();
         public void MoveForward()   => throw new NotImplementedException();
@@ -40,5 +47,7 @@ namespace TabbedFileBrowser
             var currentFolder = new DirectoryInfo(CurrentFolder);
             VisibleFiles = currentFolder.EnumerateFileSystemInfos();
         }
+
+        public override string ToString() => Title;
     }
 }
