@@ -13,5 +13,7 @@
             </Style>
         </DockPanel.Style>
 
+        <TextBox Text="{Binding CurrentTab.CurrentFolder, Mode=OneWay}"/>
+
     </DockPanel>
 </UserControl>

@@ -20,9 +20,14 @@ namespace TabbedFileBrowser
     /// </summary>
     public partial class TabbedFileBrowserControl : UserControl
     {
+        private ITabbedFileBrowserViewModel ViewModel { get; set; }
+
         public TabbedFileBrowserControl()
         {
             InitializeComponent();
+
+            ViewModel = new TabbedFileBrowserViewModel();
+            DataContext = ViewModel;
         }
     }
 }
