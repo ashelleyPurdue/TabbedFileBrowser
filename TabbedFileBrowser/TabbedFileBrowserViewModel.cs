@@ -31,9 +31,15 @@ namespace TabbedFileBrowser
             tabs.Add(initialTab);
         }
 
+
         // Public interface methods
 
-        public void NewTab(string folderPath) => throw new NotImplementedException();
+        public void NewTab(string folderPath)
+        {
+            var tab = new TabViewModel(folderPath);
+            tabs.Insert(SelectedTabIndex + 1, tab);
+        }
+
         public void CloseTab(int index) => throw new NotImplementedException();
     }
 }
