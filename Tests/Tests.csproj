@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="TabbedFileBrowserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="$(SolutionDir)Tests\TestFilesTemplate\**" CopyToOutputDirectory="PreserveNewest" LinkBase="TestFilesTemplate\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

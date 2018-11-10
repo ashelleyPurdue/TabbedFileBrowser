@@ -10,7 +10,7 @@ namespace Tests
     [TestClass]
     public class TabTests
     {
-        const string TEMPLATE_PATH = "TestFilesTemplate";
+        const string TEMPLATE_PATH = "../../TestFilesTemplate";
         const string TEST_DIR_PATH = "TestFiles";
 
         private ITabbedFileBrowserViewModel browser;
