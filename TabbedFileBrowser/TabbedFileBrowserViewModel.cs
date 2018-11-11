@@ -4,11 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace TabbedFileBrowser
 {
     public class TabbedFileBrowserViewModel : ITabbedFileBrowserViewModel
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         // Public properties
         public IReadOnlyList<ITabViewModel> Tabs => tabs;
         public ITabViewModel CurrentTab => Tabs[SelectedTabIndex];
@@ -16,7 +20,7 @@ namespace TabbedFileBrowser
         public int SelectedTabIndex { get; set; }
 
         // Private fields
-        private List<ITabViewModel> tabs = new List<ITabViewModel>();
+        private ObservableCollection<ITabViewModel> tabs = new ObservableCollection<ITabViewModel>();
         
         // Constructor
         public TabbedFileBrowserViewModel()
@@ -28,9 +32,15 @@ namespace TabbedFileBrowser
             tabs.Add(initialTab);
         }
 
+
         // Public interface methods
 
-        public void NewTab(string folderPath) => throw new NotImplementedException();
-        public void CloseTab(int index) => throw new NotImplementedException();
+        public void NewTab(string folderPath)
+        {
+            var tab = new TabViewModel(folderPath);
+            tabs.Insert(SelectedTabIndex + 1, tab);
+        }
+
+        public void CloseTab(int index) => throw new NotImplementedException($"Closing tab {index}");
     }
 }

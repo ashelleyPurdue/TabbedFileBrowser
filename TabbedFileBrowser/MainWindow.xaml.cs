@@ -23,6 +23,7 @@ namespace TabbedFileBrowser
         public MainWindow()
         {
             InitializeComponent();
+            browser.ViewModel.NewTab("../");
         }
     }
 }

@@ -7,11 +7,65 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel>
-        <DockPanel.Style>
-            <Style>
-                <Setter Property="DockPanel.Dock" Value="Top"/>
-            </Style>
-        </DockPanel.Style>
 
+        <!-- TODO: Find some way to style all controls at once, to make this DRY -->
+
+        <!-- Tab bar -->
+        <StackPanel 
+            Orientation="Horizontal"
+            DockPanel.Dock="Top"
+            Margin="5">
+
+            <ListBox
+                x:Name="tabsList"
+                DockPanel.Dock="Top"
+                Margin="5"
+                ItemsSource="{Binding Tabs}"
+                SelectedIndex="{Binding SelectedTabIndex}">
+
+                <!-- Make the listbox display the tabs horizontally -->
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+
+                        <VirtualizingStackPanel 
+                            IsItemsHost="True"
+                            Orientation="Horizontal"/>
+
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <TextBlock Text="{Binding}" Margin="0,0,5,0"/>
+                            <Button 
+                                Content="x"
+                                Click="CloseTab_Click"/>
+
+                        </StackPanel>
+
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+
+            <Button
+                Content="+"
+                Click="NewTab_Click"/>
+
+        </StackPanel>
+
+        <TextBox 
+            DockPanel.Dock="Top"
+            Margin="5"
+            Text="{Binding CurrentTab.CurrentFolder, Mode=OneWay}"/>
+        
+        <ListBox 
+            DockPanel.Dock="Top"
+            Margin="5"
+            ItemsSource="{Binding CurrentTab.VisibleFiles}"/>
+        
     </DockPanel>
 </UserControl>
