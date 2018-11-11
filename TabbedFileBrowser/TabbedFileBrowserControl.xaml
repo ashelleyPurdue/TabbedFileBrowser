@@ -10,40 +10,52 @@
 
         <!-- TODO: Find some way to style all controls at once, to make this DRY -->
 
-        <ListBox
-            x:Name="tabsList"
+        <!-- Tab bar -->
+        <StackPanel 
+            Orientation="Horizontal"
             DockPanel.Dock="Top"
-            Margin="5"
-            ItemsSource="{Binding Tabs}"
-            SelectedIndex="{Binding SelectedTabIndex}">
-            
-            <!-- Make the listbox display the tabs horizontally -->
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
+            Margin="5">
 
-                    <VirtualizingStackPanel 
-                        IsItemsHost="True"
-                        Orientation="Horizontal"/>
-                    
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+            <ListBox
+                x:Name="tabsList"
+                DockPanel.Dock="Top"
+                Margin="5"
+                ItemsSource="{Binding Tabs}"
+                SelectedIndex="{Binding SelectedTabIndex}">
 
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    
-                    <StackPanel Orientation="Horizontal">
-                        
-                        <TextBlock Text="{Binding}" Margin="0,0,5,0"/>
-                        <Button 
-                            Content="x"
-                            Click="CloseButton_Click"/>
+                <!-- Make the listbox display the tabs horizontally -->
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
 
-                    </StackPanel>
-                    
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            
-        </ListBox>
+                        <VirtualizingStackPanel 
+                            IsItemsHost="True"
+                            Orientation="Horizontal"/>
+
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <TextBlock Text="{Binding}" Margin="0,0,5,0"/>
+                            <Button 
+                                Content="x"
+                                Click="CloseTab_Click"/>
+
+                        </StackPanel>
+
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+
+            <Button
+                Content="+"
+                Click="NewTab_Click"/>
+
+        </StackPanel>
 
         <TextBox 
             DockPanel.Dock="Top"

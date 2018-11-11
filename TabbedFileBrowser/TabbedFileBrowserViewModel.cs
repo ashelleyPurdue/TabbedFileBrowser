@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace TabbedFileBrowser
 {
@@ -19,7 +20,7 @@ namespace TabbedFileBrowser
         public int SelectedTabIndex { get; set; }
 
         // Private fields
-        private List<ITabViewModel> tabs = new List<ITabViewModel>();
+        private ObservableCollection<ITabViewModel> tabs = new ObservableCollection<ITabViewModel>();
         
         // Constructor
         public TabbedFileBrowserViewModel()
@@ -40,6 +41,6 @@ namespace TabbedFileBrowser
             tabs.Insert(SelectedTabIndex + 1, tab);
         }
 
-        public void CloseTab(int index) => throw new NotImplementedException();
+        public void CloseTab(int index) => throw new NotImplementedException($"Closing tab {index}");
     }
 }

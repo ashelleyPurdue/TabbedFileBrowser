@@ -69,12 +69,18 @@ namespace TabbedFileBrowser
             throw new Exception("Couldn't find tab that goes with this close button.");
         }
 
+
         // Event handlers
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        private void CloseTab_Click(object sender, RoutedEventArgs e)
         {
             int index = GetIndexOfCloseButton((Button)sender);
             ViewModel.CloseTab(index);
+        }
+
+        private void NewTab_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.NewTab(ViewModel.CurrentTab.CurrentFolder);
         }
     }
 }
