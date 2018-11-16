@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using TabbedFileBrowser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestWindow;
 
 namespace Tests
 {
@@ -13,13 +14,14 @@ namespace Tests
         const string TEMPLATE_PATH = "../../TestFilesTemplate";
         const string TEST_DIR_PATH = "TestFiles";
 
-        private ITabbedFileBrowserViewModel browser;
+        private MainWindow window;
+        private ITabbedFileBrowserViewModel Browser => window.Browser;
 
         private void AssertVisibleFiles(params string[] expected)
         {
             var expectedSorted = expected.OrderBy(s => s);
 
-            var actualSorted = browser.CurrentTab
+            var actualSorted = Browser.CurrentTab
                                         .VisibleFiles
                                         .Select(f => f.Name)
                                         .OrderBy(s => s);
@@ -45,11 +47,14 @@ namespace Tests
         [TestInitialize]
         public void MakeBrowser()
         {
-            browser = new TabbedFileBrowserViewModel();
+            window = new MainWindow();
+            window.Show();
+        }
 
-            // TODO: Put this in a real control
-            // TODO: Put said control in a real window
-            // TODO: Close said window on test cleanup
+        [TestCleanup]
+        public void CloseBrowser()
+        {
+            window.Close();
         }
 
         [TestMethod]
@@ -65,7 +70,7 @@ namespace Tests
             string expected = Directory.GetCurrentDirectory();
             expected = Path.GetFullPath(expected);
 
-            string actual = browser.CurrentTab.CurrentFolder;
+            string actual = Browser.CurrentTab.CurrentFolder;
             Assert.AreEqual(expected, actual);
         }
 
