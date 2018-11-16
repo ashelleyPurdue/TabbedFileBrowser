@@ -81,5 +81,14 @@ namespace Tests
             "folders",
             "foo_file.txt"
         );
+
+        [TestMethod]
+        public void VisibleFilesUpdateAfterNavigate()
+        {
+            string path = Path.Combine("folders", "just_bar");
+            Browser.CurrentTab.NavigateTo(path);
+
+            AssertVisibleFiles("bar.txt");
+        }
     }
 }
