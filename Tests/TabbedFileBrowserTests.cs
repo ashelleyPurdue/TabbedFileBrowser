@@ -14,6 +14,13 @@ namespace Tests
         const string TEMPLATE_PATH = "../../TestFilesTemplate";
         const string TEST_DIR_PATH = "TestFiles";
 
+        readonly string[] ROOT_FOLDER_CONTENTS = new[]
+        {
+            ".gitkeep",
+            "folders",
+            "foo_file.txt"
+        };
+
         private MainWindow window;
         private ITabbedFileBrowserViewModel Browser => window.Browser;
 
@@ -76,11 +83,7 @@ namespace Tests
 
         [TestMethod]
         public void VisibleFilesCorrectOnStartup() => AssertVisibleFiles
-        (
-            ".gitkeep",
-            "folders",
-            "foo_file.txt"
-        );
+        (ROOT_FOLDER_CONTENTS);
 
         [TestMethod]
         public void VisibleFilesUpdateAfterNavigate()
@@ -89,6 +92,19 @@ namespace Tests
             Browser.CurrentTab.NavigateTo(path);
 
             AssertVisibleFiles("bar.txt");
+        }
+
+        [TestMethod]
+        public void VisibleFilesUpdateAfterSwitchingTabs()
+        {
+            Browser.NewTab("folders\\just_bar");
+            AssertVisibleFiles(ROOT_FOLDER_CONTENTS);
+
+            Browser.SelectedTabIndex = 1;
+            AssertVisibleFiles("bar.txt");
+
+            Browser.SelectedTabIndex = 0;
+            AssertVisibleFiles(ROOT_FOLDER_CONTENTS);
         }
     }
 }
