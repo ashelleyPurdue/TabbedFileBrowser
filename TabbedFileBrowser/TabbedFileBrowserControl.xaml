@@ -58,11 +58,13 @@
         </StackPanel>
 
         <TextBox 
+            x:Name="currentPathBox"
             DockPanel.Dock="Top"
             Margin="5"
-            Text="{Binding CurrentTab.CurrentFolder, Mode=OneWay}"/>
+            Text="{Binding CurrentTab.CurrentFolder, Mode=OneWay}"
+            KeyDown="CurrentPathBox_KeyDown"/>
         
-        <ListBox 
+        <ListBox
             DockPanel.Dock="Top"
             Margin="5"
             ItemsSource="{Binding CurrentTab.VisibleFiles}"/>

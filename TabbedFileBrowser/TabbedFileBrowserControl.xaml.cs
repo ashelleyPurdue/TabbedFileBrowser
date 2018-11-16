@@ -82,5 +82,12 @@ namespace TabbedFileBrowser
         {
             ViewModel.NewTab(ViewModel.CurrentTab.CurrentFolder);
         }
+
+        private void CurrentPathBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                ViewModel.CurrentTab.NavigateTo(currentPathBox.Text);
+                // TODO: Validate the input first
+        }
     }
 }
