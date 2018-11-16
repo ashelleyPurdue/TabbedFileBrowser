@@ -36,6 +36,17 @@ namespace Tests
             Assert.IsTrue(expectedSorted.SequenceEqual(actualSorted));
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="expectedPath">Relative to the TestFiles folder.</param>
+        private void AssertCurrentFolder(string expectedPath)
+        {
+            expectedPath = Path.GetFullPath(expectedPath);
+            string actualPath = Browser.CurrentTab.CurrentFolder;
+
+            Assert.AreEqual(expectedPath, actualPath);
+        }
+
         [ClassInitialize]
         public static void ResetTestDir(TestContext context)
         {
@@ -86,25 +97,29 @@ namespace Tests
         (ROOT_FOLDER_CONTENTS);
 
         [TestMethod]
-        public void VisibleFilesUpdateAfterNavigate()
+        public void TabUpdatesAfterNavigate()
         {
             string path = Path.Combine("folders", "just_bar");
             Browser.CurrentTab.NavigateTo(path);
 
             AssertVisibleFiles("bar.txt");
+            AssertCurrentFolder(path);
         }
 
         [TestMethod]
-        public void VisibleFilesUpdateAfterSwitchingTabs()
+        public void TabUpdatesAfterSwitchingTabs()
         {
             Browser.NewTab("folders\\just_bar");
             AssertVisibleFiles(ROOT_FOLDER_CONTENTS);
+            AssertCurrentFolder(Directory.GetCurrentDirectory());
 
             Browser.SelectedTabIndex = 1;
             AssertVisibleFiles("bar.txt");
+            AssertCurrentFolder("folders\\just_bar");
 
             Browser.SelectedTabIndex = 0;
             AssertVisibleFiles(ROOT_FOLDER_CONTENTS);
+            AssertCurrentFolder(Directory.GetCurrentDirectory());
         }
     }
 }
