@@ -43,6 +43,10 @@ namespace TabbedFileBrowser
 
         public void CloseTab(int index)
         {
+            // Don't close the tab if it's the last one.
+            if (tabs.Count == 1)
+                return;
+
             // Shift the selected tab to the left by one, if needed.
             int newTabCount = tabs.Count - 1;
             int newSelectedIndex = SelectedTabIndex;

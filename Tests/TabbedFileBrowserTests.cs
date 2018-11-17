@@ -144,6 +144,15 @@ namespace Tests
         }
 
         [TestMethod]
+        public void DontCloseOnlyTab() => AssertSelectedIndexChangeOnTabClose
+        (
+            numTabs: 1,
+            startTab: 0,
+            tabToClose: 0,
+            expectedSelectedTab: 0
+        );
+
+        [TestMethod]
         public void CloseTabAfterCurrent() => AssertSelectedIndexChangeOnTabClose
         (
             numTabs: 3,
