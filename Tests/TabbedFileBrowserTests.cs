@@ -47,6 +47,12 @@ namespace Tests
             Assert.AreEqual(expectedPath, actualPath);
         }
 
+        private void AssertTabTitle(int index, string expectedTitle)
+        {
+            string actualTitle = Browser.Tabs[index].Title;
+            Assert.AreEqual(expectedTitle, actualTitle);
+        }
+
         [ClassInitialize]
         public static void ResetTestDir(TestContext context)
         {
@@ -102,6 +108,7 @@ namespace Tests
             string path = Path.Combine("folders", "just_bar");
             Browser.CurrentTab.NavigateTo(path);
 
+            AssertTabTitle(0, "just_bar");
             AssertVisibleFiles("bar.txt");
             AssertCurrentFolder(path);
         }
