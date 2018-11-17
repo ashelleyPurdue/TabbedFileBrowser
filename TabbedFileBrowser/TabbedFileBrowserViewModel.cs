@@ -41,6 +41,29 @@ namespace TabbedFileBrowser
             tabs.Insert(SelectedTabIndex + 1, tab);
         }
 
-        public void CloseTab(int index) => throw new NotImplementedException($"Closing tab {index}");
+        public void CloseTab(int index)
+        {
+            // Don't close the tab if it's the last one.
+            if (tabs.Count == 1)
+                return;
+
+            // Shift the selected tab to the left by one, if needed.
+            int newTabCount = tabs.Count - 1;
+            int newSelectedIndex = SelectedTabIndex;
+
+            if (index < SelectedTabIndex)
+                newSelectedIndex--;
+
+            // Make sure the selected index stays in bounds.
+            if (newSelectedIndex < 0)
+                newSelectedIndex = 0;
+
+            if (newSelectedIndex >= newTabCount)
+                newSelectedIndex = newTabCount - 1;
+
+            // Apply the change to the selected index
+            tabs.RemoveAt(index);
+            SelectedTabIndex = newSelectedIndex;
+        }
     }
 }

@@ -89,5 +89,17 @@ namespace TabbedFileBrowser
                 ViewModel.CurrentTab.NavigateTo(currentPathBox.Text);
                 // TODO: Validate the input first
         }
+
+        private void tabsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // HACK: Don't let it get deselected!
+            if (tabsList.SelectedIndex == -1)
+            {
+                tabsList.SelectedIndex = 0;
+                return;
+            }
+
+            ViewModel.SelectedTabIndex = tabsList.SelectedIndex;
+        }
     }
 }

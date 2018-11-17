@@ -21,7 +21,8 @@
                 DockPanel.Dock="Top"
                 Margin="5"
                 ItemsSource="{Binding Tabs}"
-                SelectedIndex="{Binding SelectedTabIndex}">
+                SelectedIndex="{Binding SelectedTabIndex, Mode=OneWay}"
+                SelectionChanged="tabsList_SelectionChanged">
 
                 <!-- Make the listbox display the tabs horizontally -->
                 <ListBox.ItemsPanel>
