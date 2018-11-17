@@ -40,7 +40,7 @@
 
                         <StackPanel Orientation="Horizontal">
 
-                            <TextBlock Text="{Binding}" Margin="0,0,5,0"/>
+                            <TextBlock Text="{Binding Title}" Margin="0,0,5,0"/>
                             <Button 
                                 Content="x"
                                 Click="CloseTab_Click"/>
