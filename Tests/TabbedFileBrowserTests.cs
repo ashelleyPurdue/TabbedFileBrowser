@@ -129,7 +129,5 @@ namespace Tests
             AssertVisibleFiles(ROOT_FOLDER_CONTENTS);
             AssertCurrentFolder(Directory.GetCurrentDirectory());
         }
-
-        
     }
 }
