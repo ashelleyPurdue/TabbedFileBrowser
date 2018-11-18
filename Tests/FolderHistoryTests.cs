@@ -11,6 +11,16 @@ namespace Tests
 {
     public partial class TabTests
     {
+        private readonly string[] LONG_HISTORY_PATH = new[]
+        {
+            "folders",
+            "folders\\just_foo",
+            "folders\\just_bar",
+            "folders\\just_baz",
+            "folders\\just_fizz",
+            "folders\\just_buzz"
+        };
+
         private void AssertForwardBackButtons(bool back, bool forward)
         {
             Assert.AreEqual(back, Browser.CurrentTab.HasPrevFolder);
@@ -26,17 +36,11 @@ namespace Tests
         {
             var tab = Browser.CurrentTab;
 
-            string[] folders = new[]
-            {
-                "folders",
-                "folders\\just_foo",
-                "folders\\just_bar"
-            };
-
             // Browse through some folders
-            foreach (string f in folders)
+            foreach (string f in LONG_HISTORY_PATH)
             {
                 tab.NavigateTo(f);
+                AssertCurrentFolder(f);
                 AssertForwardBackButtons(true, false);
             }
         }
@@ -46,19 +50,12 @@ namespace Tests
         {
             var tab = Browser.CurrentTab;
 
-            string[] folders = new[]
-            {
-                "folders",
-                "folders\\just_foo",
-                "folders\\just_bar"
-            };
-
             // Browse through some folders
-            foreach (string f in folders)
+            foreach (string f in LONG_HISTORY_PATH)
                 tab.NavigateTo(f);
 
             // Spam the back button
-            for (int i = folders.Length - 1; i >= 0; i--)
+            for (int i = LONG_HISTORY_PATH.Length - 1; i >= 0; i--)
             {
                 tab.MoveBack();
 
