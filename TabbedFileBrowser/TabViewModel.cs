@@ -24,6 +24,10 @@ namespace TabbedFileBrowser
             }
         }
 
+        public bool HasPrevFolder   => throw new NotImplementedException();
+        public bool HasNextFolder   => throw new NotImplementedException();
+        public bool HasParentFolder => throw new NotImplementedException();
+
         public void MoveBack()      => throw new NotImplementedException();
         public void MoveForward()   => throw new NotImplementedException();
         public void MoveUp()        => throw new NotImplementedException();

@@ -13,6 +13,10 @@ namespace TabbedFileBrowser
         string CurrentFolder { get; }
         string Title { get; }
 
+        bool HasPrevFolder { get; }
+        bool HasNextFolder { get; }
+        bool HasParentFolder { get; }
+
         IEnumerable<FileSystemInfo> VisibleFiles { get; }
 
         void NavigateTo(string path);
