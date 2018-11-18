@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using TabbedFileBrowser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestWindow;
@@ -88,6 +89,18 @@ namespace Tests
             // Navigate somewhere.  The future history should be disappear.
             tab.NavigateTo("folders\\just_bar");
             AssertForwardBackButtons(true, false);
+        }
+
+        [TestMethod]
+        public void CanMoveUpAllTheWayToRoot()
+        {
+            var tab = Browser.CurrentTab;
+            string root = Path.GetPathRoot(tab.CurrentFolder);
+
+            while (tab.HasParentFolder)
+                tab.MoveUp();
+
+            AssertCurrentFolder(root);
         }
     }
 }
