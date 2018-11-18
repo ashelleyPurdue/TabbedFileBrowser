@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PropertyChanged;
 
 namespace TabbedFileBrowser
 {
@@ -24,21 +25,50 @@ namespace TabbedFileBrowser
             }
         }
 
-        public void MoveBack()      => throw new NotImplementedException();
-        public void MoveForward()   => throw new NotImplementedException();
-        public void MoveUp()        => throw new NotImplementedException();
+        [DependsOn("CurrentFolder")] public bool HasPrevFolder => history.Count > 0;
+        [DependsOn("CurrentFolder")] public bool HasNextFolder => futureHistory.Count > 0;
+
+        [DependsOn("CurrentFolder")]
+        public bool HasParentFolder => Path.GetDirectoryName(CurrentFolder) != null;
+
+        private Stack<string> history       = new Stack<string>();
+        private Stack<string> futureHistory = new Stack<string>();
+
 
         public TabViewModel(string startFolder)
         {
-            NavigateTo(startFolder);
+            CurrentFolder = Path.GetFullPath(startFolder);
+            Refresh();
         }
 
         public void NavigateTo(string path)
         {
-            // TODO: Push this to a navigation stack of some sort
-            // instead of directly changing the folder
+            futureHistory.Clear();
+            history.Push(CurrentFolder);
+
             CurrentFolder = Path.GetFullPath(path);
             Refresh();
+        }
+
+        public void MoveBack()
+        {
+            futureHistory.Push(CurrentFolder);
+            CurrentFolder = history.Pop();
+
+            Refresh();
+        }
+
+        public void MoveForward()
+        {
+            history.Push(CurrentFolder);
+            CurrentFolder = futureHistory.Pop();
+
+            Refresh();
+        }
+
+        public void MoveUp()
+        {
+            NavigateTo(Path.GetDirectoryName(CurrentFolder));
         }
 
         public void Refresh()
