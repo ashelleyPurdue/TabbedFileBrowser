@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.ComponentModel;
 
 namespace TabbedFileBrowser
 {
-    public interface ITabbedFileBrowserViewModel
+    public interface ITabbedFileBrowserViewModel : INotifyPropertyChanged
     {
         IReadOnlyList<ITabViewModel> Tabs { get; }
         int SelectedTabIndex { get; set; }
@@ -18,7 +19,7 @@ namespace TabbedFileBrowser
         void CloseTab(int index);
     }
 
-    public interface ITabViewModel
+    public interface ITabViewModel : INotifyPropertyChanged
     {
         string CurrentFolder { get; }
         string Title { get; }
@@ -29,5 +30,6 @@ namespace TabbedFileBrowser
         void MoveUp();
         void MoveForward();
         void MoveBack();
+        void Refresh();
     }
 }
