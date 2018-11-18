@@ -57,6 +57,7 @@ namespace Tests
             // Spam the back button
             for (int i = LONG_HISTORY_PATH.Length - 1; i >= 0; i--)
             {
+                AssertCurrentFolder(LONG_HISTORY_PATH[i]);
                 tab.MoveBack();
 
                 // The forward button should always be enabled.
@@ -64,6 +65,29 @@ namespace Tests
                 // we've reached the start of the history.
                 AssertForwardBackButtons(i != 0, true);
             }
+
+            AssertCurrentFolder(".");
+        }
+
+        [TestMethod]
+        public void MoveBackThenNavigateShouldClearFutureHistory()
+        {
+            var tab = Browser.CurrentTab;
+
+            // Browse through some folders
+            foreach (string f in LONG_HISTORY_PATH)
+                tab.NavigateTo(f);
+
+            // Move backwards a little
+            int numMoveBack = LONG_HISTORY_PATH.Length / 2;
+
+            for (int i = 0; i < numMoveBack; i++)
+                tab.MoveBack();
+            AssertForwardBackButtons(true, true);
+
+            // Navigate somewhere.  The future history should be disappear.
+            tab.NavigateTo("folders\\just_bar");
+            AssertForwardBackButtons(true, false);
         }
     }
 }
