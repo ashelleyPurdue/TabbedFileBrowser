@@ -35,7 +35,8 @@ namespace TabbedFileBrowser
 
         public TabViewModel(string startFolder)
         {
-            NavigateTo(startFolder);
+            CurrentFolder = Path.GetFullPath(startFolder);
+            Refresh();
         }
 
         public void NavigateTo(string path)
