@@ -90,6 +90,10 @@ namespace TabbedFileBrowser
                 // TODO: Validate the input first
         }
 
+        private void MoveBack_Click(object s, RoutedEventArgs a)    => ViewModel.CurrentTab.MoveBack();
+        private void MoveUp_Click(object s, RoutedEventArgs a)      => ViewModel.CurrentTab.MoveUp();
+        private void MoveForward_Click(object s, RoutedEventArgs a) => ViewModel.CurrentTab.MoveForward();
+
         private void tabsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // HACK: Don't let it get deselected!

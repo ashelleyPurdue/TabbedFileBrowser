@@ -58,12 +58,35 @@
 
         </StackPanel>
 
-        <TextBox 
-            x:Name="currentPathBox"
+        <DockPanel 
             DockPanel.Dock="Top"
-            Margin="5"
-            Text="{Binding CurrentTab.CurrentFolder, Mode=OneWay}"
-            KeyDown="CurrentPathBox_KeyDown"/>
+            Margin="5">
+
+            <Button
+                Content="&lt;-"
+                IsEnabled="{Binding CurrentTab.HasPrevFolder}"
+                Click="MoveBack_Click"/>
+            
+            <Button
+                Content="/|\"
+                IsEnabled="{Binding CurrentTab.HasParentFolder}"
+                Click="MoveUp_Click"/>
+
+            <Button
+                Content="-&gt;"
+                IsEnabled="{Binding CurrentTab.HasNextFolder}"
+                Margin="0,0,5,0"
+                Click="MoveForward_Click"/>
+
+            <TextBox 
+                x:Name="currentPathBox"
+                DockPanel.Dock="Left"
+                Text="{Binding CurrentTab.CurrentFolder, Mode=OneWay}"
+                KeyDown="CurrentPathBox_KeyDown"/>
+            
+            
+        </DockPanel>
+        
         
         <ListBox
             DockPanel.Dock="Top"

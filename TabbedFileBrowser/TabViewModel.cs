@@ -27,7 +27,9 @@ namespace TabbedFileBrowser
 
         [DependsOn("CurrentFolder")] public bool HasPrevFolder => history.Count > 0;
         [DependsOn("CurrentFolder")] public bool HasNextFolder => futureHistory.Count > 0;
-        [DependsOn("CurrentFolder")] public bool HasParentFolder => throw new NotImplementedException();
+
+        [DependsOn("CurrentFolder")]
+        public bool HasParentFolder => Path.GetDirectoryName(CurrentFolder) != null;
 
         private Stack<string> history       = new Stack<string>();
         private Stack<string> futureHistory = new Stack<string>();
@@ -64,7 +66,10 @@ namespace TabbedFileBrowser
             Refresh();
         }
 
-        public void MoveUp() => throw new NotImplementedException();
+        public void MoveUp()
+        {
+            NavigateTo(Path.GetDirectoryName(CurrentFolder));
+        }
 
         public void Refresh()
         {
