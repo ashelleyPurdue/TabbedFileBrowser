@@ -58,22 +58,30 @@
 
         </StackPanel>
 
+        <!-- CurrentPath box, navigation buttons-->
         <DockPanel 
             DockPanel.Dock="Top"
             Margin="5">
 
+            <DockPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+                    <Setter Property="Width" Value="20"/>
+                </Style>
+            </DockPanel.Resources>
+
             <Button
-                Content="&lt;-"
+                Content="❮"
                 IsEnabled="{Binding CurrentTab.HasPrevFolder}"
                 Click="MoveBack_Click"/>
             
             <Button
-                Content="/|\"
+                Content="⭡"
                 IsEnabled="{Binding CurrentTab.HasParentFolder}"
                 Click="MoveUp_Click"/>
 
             <Button
-                Content="-&gt;"
+                Content="❯"
                 IsEnabled="{Binding CurrentTab.HasNextFolder}"
                 Margin="0,0,5,0"
                 Click="MoveForward_Click"/>
