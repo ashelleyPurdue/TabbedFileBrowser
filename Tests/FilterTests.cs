@@ -43,6 +43,15 @@ namespace Tests
 
 
         [TestMethod]
+        public void EmptyStringDisablesFiltering() => AssertFiltered
+        (
+            folder: "fizz_buzz",
+            parser: s => (f => false),      // Generates a FilterCondition that never matches.  Should still show all files.
+            filter: "",
+            expectedFiles: new[] { "buzz.txt", "fizz.txt" }
+        );
+
+        [TestMethod]
         public void ContainsIzz() => AssertFiltered
         (
             folder: "fizz_buzz",
@@ -56,14 +65,6 @@ namespace Tests
             folder: "fizz_buzz",
             filter: "uzz",
             expectedFiles: new[] { "buzz.txt" }
-        );
-
-        [TestMethod]
-        public void ContainsEmptyStr() => AssertFiltered
-        (
-            folder: "fizz_buzz",
-            filter: "",
-            expectedFiles: new[] {""}
         );
 
         [TestMethod]
@@ -82,15 +83,6 @@ namespace Tests
             parser: StartsWith,
             filter: "bu",
             expectedFiles: new[] { "buzz.txt" }
-        );
-
-        [TestMethod]
-        public void StartsWithEmptyStr() => AssertFiltered
-        (
-            folder: "fizz_buzz",
-            parser: StartsWith,
-            filter: "",
-            expectedFiles: new[] { "buzz.txt", "fizz.txt" }
         );
     }
 }

@@ -80,13 +80,14 @@ namespace TabbedFileBrowser
         {
             // Parse the filter string to create a filtering function.
             FilterCondition matchesFilter = parent.ParseFilterString(FilterString);
+            bool skipFiltering = String.IsNullOrWhiteSpace(FilterString);
 
             // Query the current folder for all files that match the filter,
             // and display them in the listbox.
             // TODO: Apply sorting too.
             var currentFolder = new DirectoryInfo(CurrentFolder);
             VisibleFiles = currentFolder.EnumerateFileSystemInfos()
-                                        .Where(f => matchesFilter(f));
+                                        .Where(f => skipFiltering || matchesFilter(f));
         }
 
         public override string ToString() => Title;
