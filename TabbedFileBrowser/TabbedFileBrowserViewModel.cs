@@ -22,6 +22,7 @@ namespace TabbedFileBrowser
         public int SelectedFileIndex { get; set; }
         public FileSystemInfo SelectedFile { get; set; }
 
+        public FilterStringParser FilterStringParser { get; set; }
 
 
         // Private fields

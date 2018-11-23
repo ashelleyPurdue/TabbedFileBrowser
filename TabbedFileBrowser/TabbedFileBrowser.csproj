@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileSystemInfoExtensions.cs" />
+    <Compile Include="FilterCondition.cs" />
     <Compile Include="ITabViewModel.cs" />
     <Compile Include="TabbedFileBrowserControl.xaml.cs">
       <DependentUpon>TabbedFileBrowserControl.xaml</DependentUpon>
