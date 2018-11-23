@@ -1,15 +1,15 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <package>
   <metadata>
-    <id>$id$</id>
-    <version>$version$</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <id>TabbedFileBrowser</id>
+    <version>0.0.0.1</version>
+    <title>TabbedFileBrowser</title>
+    <authors>Alex Shelley</authors>
+    <owners>Alex Shelley</owners>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
     <projectUrl>https://github.com/ashelleyPurdue/TabbedFileBrowser</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>A multi-tabbed WPF control that lets you browse the file system.  Much like OpenFileDialogue, except it can be embedded in your form.</description>
     <copyright>Copyright 2018</copyright>
     <tags>WPF file browser tabs control tab</tags>
   </metadata>
