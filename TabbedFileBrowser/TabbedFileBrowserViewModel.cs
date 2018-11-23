@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace TabbedFileBrowser
 {
-    public class TabbedFileBrowserViewModel : ITabbedFileBrowserViewModel
+    internal class TabbedFileBrowserViewModel : ITabbedFileBrowserViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -18,6 +18,11 @@ namespace TabbedFileBrowser
         public ITabViewModel CurrentTab => Tabs[SelectedTabIndex];
 
         public int SelectedTabIndex { get; set; }
+
+        public int SelectedFileIndex { get; set; }
+        public FileSystemInfo SelectedFile { get; set; }
+
+
 
         // Private fields
         private ObservableCollection<ITabViewModel> tabs = new ObservableCollection<ITabViewModel>();
