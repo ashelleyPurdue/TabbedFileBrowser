@@ -22,7 +22,7 @@ namespace TabbedFileBrowser
         public int SelectedFileIndex { get; set; }
         public FileSystemInfo SelectedFile { get; set; }
 
-        public FilterStringParser FilterStringParser { get; set; }
+        public FilterStringParser ParseFilterString { get; set; }
 
 
         // Private fields
@@ -33,7 +33,7 @@ namespace TabbedFileBrowser
         {
             // Start out with one tab pointed at the working directory
             var workingDir = Directory.GetCurrentDirectory();
-            var initialTab = new TabViewModel(workingDir);
+            var initialTab = new TabViewModel(this, workingDir);
 
             tabs.Add(initialTab);
         }
@@ -43,7 +43,7 @@ namespace TabbedFileBrowser
 
         public void NewTab(string folderPath)
         {
-            var tab = new TabViewModel(folderPath);
+            var tab = new TabViewModel(this, folderPath);
             tabs.Insert(SelectedTabIndex + 1, tab);
         }
 

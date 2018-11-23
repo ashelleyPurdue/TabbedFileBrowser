@@ -10,8 +10,8 @@ namespace TabbedFileBrowser
 {
     public interface ITabViewModel : INotifyPropertyChanged
     {
-        string CurrentFolder { get; }
         string Title { get; }
+        string CurrentFolder { get; }
 
         bool HasPrevFolder { get; }
         bool HasNextFolder { get; }

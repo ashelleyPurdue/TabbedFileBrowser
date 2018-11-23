@@ -14,7 +14,7 @@ namespace TabbedFileBrowser
         int SelectedFileIndex { get; set; }
         FileSystemInfo SelectedFile { get; }
         
-        FilterStringParser FilterStringParser { get; set; }
+        FilterStringParser ParseFilterString { get; set; }
 
         void NewTab(string folderPath);
         void CloseTab(int index);

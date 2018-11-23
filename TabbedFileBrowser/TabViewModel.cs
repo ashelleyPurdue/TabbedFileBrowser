@@ -9,7 +9,7 @@ using PropertyChanged;
 
 namespace TabbedFileBrowser
 {
-    public class TabViewModel : ITabViewModel
+    internal class TabViewModel : ITabViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -25,19 +25,23 @@ namespace TabbedFileBrowser
             }
         }
 
+        public string FilterString { get; set; }
+
         [DependsOn("CurrentFolder")] public bool HasPrevFolder => history.Count > 0;
         [DependsOn("CurrentFolder")] public bool HasNextFolder => futureHistory.Count > 0;
+        [DependsOn("CurrentFolder")] public bool HasParentFolder => Path.GetDirectoryName(CurrentFolder) != null;
 
-        [DependsOn("CurrentFolder")]
-        public bool HasParentFolder => Path.GetDirectoryName(CurrentFolder) != null;
+        private ITabbedFileBrowserViewModel parent;
 
         private Stack<string> history       = new Stack<string>();
         private Stack<string> futureHistory = new Stack<string>();
 
 
-        public TabViewModel(string startFolder)
+        public TabViewModel(ITabbedFileBrowserViewModel parent, string startFolder)
         {
             CurrentFolder = Path.GetFullPath(startFolder);
+            this.parent = parent;
+
             Refresh();
         }
 
@@ -68,14 +72,18 @@ namespace TabbedFileBrowser
 
         public void MoveUp()
         {
+            // Navigate up to the parent folder
             NavigateTo(Path.GetDirectoryName(CurrentFolder));
         }
 
         public void Refresh()
         {
-            // TODO: Apply filtering and sorting
             var currentFolder = new DirectoryInfo(CurrentFolder);
-            VisibleFiles = currentFolder.EnumerateFileSystemInfos();
+            var matchesFilter = parent.ParseFilterString(FilterString);
+            // TODO: Apply sorting, too.
+
+            VisibleFiles = currentFolder.EnumerateFileSystemInfos()
+                                        .Where(f => matchesFilter(f));
         }
 
         public override string ToString() => Title;
