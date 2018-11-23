@@ -12,6 +12,7 @@ namespace TabbedFileBrowser
     {
         string Title { get; }
         string CurrentFolder { get; }
+        string FilterString { get; set; }
 
         bool HasPrevFolder { get; }
         bool HasNextFolder { get; }

@@ -78,10 +78,18 @@ namespace TabbedFileBrowser
 
         public void Refresh()
         {
-            var currentFolder = new DirectoryInfo(CurrentFolder);
-            var matchesFilter = parent.ParseFilterString(FilterString);
-            // TODO: Apply sorting, too.
+            // Parse the filter string to create a filtering function.
+            // If no FilterStringParser was supplied, default to a function
+            // that just matches everything.
+            FilterCondition matchesFilter = parent.ParseFilterString?.Invoke(FilterString);
 
+            if (matchesFilter == null)
+                matchesFilter = f => true;
+
+            // Query the current folder for all files that match the filter,
+            // and display them in the listbox.
+            // TODO: Apply sorting too.
+            var currentFolder = new DirectoryInfo(CurrentFolder);
             VisibleFiles = currentFolder.EnumerateFileSystemInfos()
                                         .Where(f => matchesFilter(f));
         }
