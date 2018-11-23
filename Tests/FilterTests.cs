@@ -19,13 +19,13 @@ namespace Tests
             return f => f.Name.StartsWith(filterString);
         }
 
-        private void AssertFiltered(string folder, string filter, params string[] expectedFiles)
+        private void AssertFiltered(string folder, FilterStringParser parser, string filter, params string[] expectedFiles)
         {
             folder = Path.Combine(BASE_PATH, folder);
 
             ITabbedFileBrowserViewModel browser = new TabbedFileBrowserControl().ViewModel;
 
-            browser.ParseFilterString = StartsWith;
+            browser.ParseFilterString = parser;
             browser.CurrentTab.FilterString = filter;
             browser.CurrentTab.NavigateTo(folder);
 
@@ -44,6 +44,7 @@ namespace Tests
         public void StartsWithFi() => AssertFiltered
         (
             folder: "fizz_buzz",
+            parser: StartsWith,
             filter: "fi",
             expectedFiles: new[] { "fizz.txt" }
         );
@@ -52,6 +53,7 @@ namespace Tests
         public void StartsWithBu() => AssertFiltered
         (
             folder: "fizz_buzz",
+            parser: StartsWith,
             filter: "bu",
             expectedFiles: new[] { "buzz.txt" }
         );
@@ -60,6 +62,7 @@ namespace Tests
         public void StartsWithEmptyStr() => AssertFiltered
         (
             folder: "fizz_buzz",
+            parser: StartsWith,
             filter: "",
             expectedFiles: new[] { "buzz.txt", "fizz.txt" }
         );
