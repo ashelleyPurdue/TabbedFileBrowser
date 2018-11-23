@@ -94,12 +94,14 @@
             
             
         </DockPanel>
-        
-        
+
+
         <ListBox
             DockPanel.Dock="Top"
             Margin="5"
-            ItemsSource="{Binding CurrentTab.VisibleFiles}"/>
-        
+            ItemsSource="{Binding CurrentTab.VisibleFiles}"
+            SelectedIndex="{Binding SelectedFileIndex, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedFile, Mode=TwoWay}"/>
+
     </DockPanel>
 </UserControl>
