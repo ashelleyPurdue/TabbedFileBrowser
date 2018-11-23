@@ -13,12 +13,6 @@ namespace Tests
     public class FilterTests
     {
         const string BASE_PATH = "../../TestFilesTemplate/folders";
-
-        private FilterCondition StartsWith(string filterString)
-        {
-            return f => f.Name.StartsWith(filterString);
-        }
-
         private void AssertFiltered(string folder, FilterStringParser parser, string filter, params string[] expectedFiles)
         {
             folder = Path.Combine(BASE_PATH, folder);
@@ -39,6 +33,40 @@ namespace Tests
             Assert.IsTrue(actualSorted.SequenceEqual(expectedSorted));
         }
 
+        private FilterCondition Default(string s) => null;
+
+        private FilterCondition StartsWith(string s)
+        {
+            return f => f.Name.StartsWith(s);
+        }
+
+
+        [TestMethod]
+        public void ContainsIzz() => AssertFiltered
+        (
+            folder: "fizz_buzz",
+            parser: Default,
+            filter: "izz",
+            expectedFiles: new[] { "fizz.txt" }
+        );
+
+        [TestMethod]
+        public void ContainsUzz() => AssertFiltered
+        (
+            folder: "fizz_buzz",
+            parser: Default,
+            filter: "uzz",
+            expectedFiles: new[] { "buzz.txt" }
+        );
+
+        [TestMethod]
+        public void ContainsEmptyStr() => AssertFiltered
+        (
+            folder: "fizz_buzz",
+            parser: Default,
+            filter: "",
+            expectedFiles: new[] {""}
+        );
 
         [TestMethod]
         public void StartsWithFi() => AssertFiltered
