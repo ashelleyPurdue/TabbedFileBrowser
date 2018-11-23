@@ -95,7 +95,12 @@
             
         </DockPanel>
 
+        <!-- Filter box -->
+        <TextBox
+            DockPanel.Dock="Top"
+            Text="{Binding CurrentTab.FilterString, Mode=TwoWay}"/>
 
+        <!-- VisibleFiles -->
         <ListBox
             DockPanel.Dock="Top"
             Margin="5"
