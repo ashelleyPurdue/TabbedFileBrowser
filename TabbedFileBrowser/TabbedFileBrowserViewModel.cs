@@ -22,6 +22,7 @@ namespace TabbedFileBrowser
         public int SelectedFileIndex { get; set; }
         public FileSystemInfo SelectedFile { get; set; }
 
+        public FilterStringParser ParseFilterString { get; set; } = DefaultFilterStringParser;
 
 
         // Private fields
@@ -32,7 +33,7 @@ namespace TabbedFileBrowser
         {
             // Start out with one tab pointed at the working directory
             var workingDir = Directory.GetCurrentDirectory();
-            var initialTab = new TabViewModel(workingDir);
+            var initialTab = new TabViewModel(this, workingDir);
 
             tabs.Add(initialTab);
         }
@@ -42,7 +43,7 @@ namespace TabbedFileBrowser
 
         public void NewTab(string folderPath)
         {
-            var tab = new TabViewModel(folderPath);
+            var tab = new TabViewModel(this, folderPath);
             tabs.Insert(SelectedTabIndex + 1, tab);
         }
 
@@ -69,6 +70,14 @@ namespace TabbedFileBrowser
             // Apply the change to the selected index
             tabs.RemoveAt(index);
             SelectedTabIndex = newSelectedIndex;
+        }
+
+
+        // Misc methods
+
+        private static FilterCondition DefaultFilterStringParser(string filterString)
+        {
+            return f => f.Name.Contains(filterString);
         }
     }
 }
