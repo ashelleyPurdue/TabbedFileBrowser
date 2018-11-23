@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="FolderHistoryTests.cs" />
     <Compile Include="CloseTabTests.cs" />
+    <Compile Include="SelectionTests.cs" />
     <Compile Include="TabbedFileBrowserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
