@@ -13,13 +13,16 @@ namespace Tests
     public class FilterTests
     {
         const string BASE_PATH = "../../TestFilesTemplate/folders";
-        private void AssertFiltered(string folder, FilterStringParser parser, string filter, params string[] expectedFiles)
+        private void AssertFiltered(string folder, string filter, string[] expectedFiles, FilterStringParser parser = null)
         {
             folder = Path.Combine(BASE_PATH, folder);
 
             ITabbedFileBrowserViewModel browser = new TabbedFileBrowserControl().ViewModel;
 
-            browser.ParseFilterString = parser;
+            // If no parser is specified, use the default parser.
+            if (parser != null)
+                browser.ParseFilterString = parser;
+
             browser.CurrentTab.FilterString = filter;
             browser.CurrentTab.NavigateTo(folder);
 
@@ -33,8 +36,6 @@ namespace Tests
             Assert.IsTrue(actualSorted.SequenceEqual(expectedSorted));
         }
 
-        private FilterCondition Default(string s) => null;
-
         private FilterCondition StartsWith(string s)
         {
             return f => f.Name.StartsWith(s);
@@ -45,7 +46,6 @@ namespace Tests
         public void ContainsIzz() => AssertFiltered
         (
             folder: "fizz_buzz",
-            parser: Default,
             filter: "izz",
             expectedFiles: new[] { "fizz.txt" }
         );
@@ -54,7 +54,6 @@ namespace Tests
         public void ContainsUzz() => AssertFiltered
         (
             folder: "fizz_buzz",
-            parser: Default,
             filter: "uzz",
             expectedFiles: new[] { "buzz.txt" }
         );
@@ -63,7 +62,6 @@ namespace Tests
         public void ContainsEmptyStr() => AssertFiltered
         (
             folder: "fizz_buzz",
-            parser: Default,
             filter: "",
             expectedFiles: new[] {""}
         );

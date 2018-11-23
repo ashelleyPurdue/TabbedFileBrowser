@@ -22,7 +22,7 @@ namespace TabbedFileBrowser
         public int SelectedFileIndex { get; set; }
         public FileSystemInfo SelectedFile { get; set; }
 
-        public FilterStringParser ParseFilterString { get; set; }
+        public FilterStringParser ParseFilterString { get; set; } = DefaultFilterStringParser;
 
 
         // Private fields
@@ -70,6 +70,14 @@ namespace TabbedFileBrowser
             // Apply the change to the selected index
             tabs.RemoveAt(index);
             SelectedTabIndex = newSelectedIndex;
+        }
+
+
+        // Misc methods
+
+        private static FilterCondition DefaultFilterStringParser(string filterString)
+        {
+            return f => f.Name.Contains(filterString);
         }
     }
 }

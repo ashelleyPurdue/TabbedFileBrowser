@@ -79,12 +79,7 @@ namespace TabbedFileBrowser
         public void Refresh()
         {
             // Parse the filter string to create a filtering function.
-            // If no FilterStringParser was supplied, default to a function
-            // that just matches everything.
-            FilterCondition matchesFilter = parent.ParseFilterString?.Invoke(FilterString);
-
-            if (matchesFilter == null)
-                matchesFilter = f => true;
+            FilterCondition matchesFilter = parent.ParseFilterString(FilterString);
 
             // Query the current folder for all files that match the filter,
             // and display them in the listbox.
