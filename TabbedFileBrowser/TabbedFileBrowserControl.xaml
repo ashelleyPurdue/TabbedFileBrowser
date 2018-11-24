@@ -97,8 +97,14 @@
                 <TextBox 
                     x:Name="currentPathBox"
                     Grid.Column="0"
+                    Margin="0,0,10,0"
                     Text="{Binding CurrentTab.CurrentFolder, Mode=OneWay}"
                     KeyDown="CurrentPathBox_KeyDown"/>
+
+                <GridSplitter
+                    Grid.Column="0"
+                    Width="10"
+                    Background="Transparent"/>
 
                 <!-- Filter textbox -->
                 <TextBox
