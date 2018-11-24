@@ -58,7 +58,6 @@
 
         </StackPanel>
 
-        <!-- CurrentPath box, navigation buttons-->
         <DockPanel 
             DockPanel.Dock="Top"
             Margin="5">
@@ -70,11 +69,12 @@
                 </Style>
             </DockPanel.Resources>
 
+            <!-- Navigation buttons -->
             <Button
                 Content="❮"
                 IsEnabled="{Binding CurrentTab.HasPrevFolder}"
                 Click="MoveBack_Click"/>
-            
+
             <Button
                 Content="⭡"
                 IsEnabled="{Binding CurrentTab.HasParentFolder}"
@@ -86,19 +86,27 @@
                 Margin="0,0,5,0"
                 Click="MoveForward_Click"/>
 
-            <TextBox 
-                x:Name="currentPathBox"
-                DockPanel.Dock="Left"
-                Text="{Binding CurrentTab.CurrentFolder, Mode=OneWay}"
-                KeyDown="CurrentPathBox_KeyDown"/>
-            
-            
-        </DockPanel>
+            <Grid DockPanel.Dock="Left">
 
-        <!-- Filter box -->
-        <TextBox
-            DockPanel.Dock="Top"
-            Text="{Binding CurrentTab.FilterString, Mode=TwoWay}"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="9*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Current path textbox -->
+                <TextBox 
+                    x:Name="currentPathBox"
+                    Grid.Column="0"
+                    Text="{Binding CurrentTab.CurrentFolder, Mode=OneWay}"
+                    KeyDown="CurrentPathBox_KeyDown"/>
+
+                <!-- Filter textbox -->
+                <TextBox
+                    Grid.Column="1"
+                    Text="{Binding CurrentTab.FilterString, Mode=TwoWay}"/>
+            </Grid>
+
+        </DockPanel>
 
         <!-- VisibleFiles -->
         <ListBox
