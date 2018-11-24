@@ -109,9 +109,15 @@
                 <!-- Filter textbox -->
                 <TextBox
                     Grid.Column="1"
-                    Text="{Binding CurrentTab.FilterString, Mode=TwoWay}"/>
+                    Text=
+                    "{
+                        Binding CurrentTab.FilterString,
+                        Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged
+                    }"
+                    KeyDown="FilterTextbox_EnterPressed"/>
             </Grid>
-
+          
         </DockPanel>
 
         <!-- VisibleFiles -->

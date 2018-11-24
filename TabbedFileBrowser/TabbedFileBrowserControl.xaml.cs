@@ -85,9 +85,18 @@ namespace TabbedFileBrowser
 
         private void CurrentPathBox_KeyDown(object sender, KeyEventArgs e)
         {
+            // TODO: Validate the input first
             if (e.Key == Key.Enter)
                 ViewModel.CurrentTab.NavigateTo(currentPathBox.Text);
-                // TODO: Validate the input first
+        }
+
+        private void FilterTextbox_EnterPressed(object sender, KeyEventArgs e)
+        {
+            // TODO: Validate input
+            if (e.Key != Key.Enter)
+                return;
+
+            ViewModel.CurrentTab.Refresh();
         }
 
         private void MoveBack_Click(object s, RoutedEventArgs a)    => ViewModel.CurrentTab.MoveBack();
