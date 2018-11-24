@@ -126,7 +126,21 @@
             Margin="5"
             ItemsSource="{Binding CurrentTab.VisibleFiles}"
             SelectedIndex="{Binding SelectedFileIndex, Mode=TwoWay}"
-            SelectedItem="{Binding SelectedFile, Mode=TwoWay}"/>
+            SelectedItem="{Binding SelectedFile, Mode=TwoWay}">
+
+            <ListBox.Resources>
+                <Style 
+                    x:Key="{x:Type ListBoxItem}"
+                    TargetType="ListBoxItem">
+
+                    <EventSetter 
+                        Event="MouseDoubleClick"
+                        Handler="File_MouseDoubleClick"/>
+                    
+                </Style>
+            </ListBox.Resources>
+            
+        </ListBox>
 
     </DockPanel>
 </UserControl>

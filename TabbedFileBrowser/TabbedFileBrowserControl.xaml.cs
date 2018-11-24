@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace TabbedFileBrowser
 {
@@ -21,6 +22,8 @@ namespace TabbedFileBrowser
     public partial class TabbedFileBrowserControl : UserControl
     {
         public ITabbedFileBrowserViewModel ViewModel { get; private set; }
+
+        public event EventHandler<FileSystemInfo> FileDoubleClicked;
 
         public TabbedFileBrowserControl()
         {
@@ -113,6 +116,18 @@ namespace TabbedFileBrowser
             }
 
             ViewModel.SelectedTabIndex = tabsList.SelectedIndex;
+        }
+
+        private void File_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var file = (sender as ListBoxItem).Content as FileSystemInfo;
+
+            // Forward the event
+            FileDoubleClicked?.Invoke(this, file);
+
+            // If it's a folder, navigate there.
+            if (file is DirectoryInfo dir)
+                ViewModel.CurrentTab.NavigateTo(dir.FullName);
         }
     }
 }
