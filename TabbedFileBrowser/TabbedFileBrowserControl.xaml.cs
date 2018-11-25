@@ -28,12 +28,20 @@ namespace TabbedFileBrowser
         public delegate void FileContextMenuOpeningHandler(FileSystemInfo file, ContextMenu menu);
         public event FileContextMenuOpeningHandler FileContextMenuOpening;
 
+        private List<MenuItem> originalContextMenu = new List<MenuItem>();
+
         public TabbedFileBrowserControl()
         {
             InitializeComponent();
 
             ViewModel = new TabbedFileBrowserViewModel();
             DataContext = ViewModel;
+
+            // Save the original context menu so it can be restored
+            // every time it is opened
+            ContextMenu menu = FindResource("fileContextMenu") as ContextMenu;
+            foreach (MenuItem i in menu.Items)
+                originalContextMenu.Add(i);
         }
 
         // Misc methods
@@ -134,26 +142,15 @@ namespace TabbedFileBrowser
                 ViewModel.CurrentTab.NavigateTo(dir.FullName);
         }
 
-        private bool originalSaved = false;
-        private List<MenuItem> originalMenu = new List<MenuItem>();
         private void File_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var item = (ListBoxItem)sender;
             var file = (FileSystemInfo)(item.Content);
             var contextMenu = item.ContextMenu;
 
-            // If the original menu hasn't been saved yet, save it.
-            if (!originalSaved)
-            {
-                originalSaved = true;
-
-                foreach (MenuItem i in contextMenu.Items)
-                    originalMenu.Add(i);
-            }
-
             // Restore the original context menu
             contextMenu.Items.Clear();
-            foreach (MenuItem i in originalMenu)
+            foreach (MenuItem i in originalContextMenu)
                 contextMenu.Items.Add(i);
 
             // TODO: Make changes to it
@@ -161,7 +158,7 @@ namespace TabbedFileBrowser
             {
                 Header = "Open"
             };
-            contextMenu.Items.Add(openItem);
+            contextMenu.Items.Insert(0, openItem);
 
             // Give the application a chance to make their own changes to it
             FileContextMenuOpening?.Invoke(file, contextMenu);
