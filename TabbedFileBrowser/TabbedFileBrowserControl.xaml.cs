@@ -28,7 +28,8 @@ namespace TabbedFileBrowser
         public delegate void FileContextMenuOpeningHandler(FileSystemInfo file, ContextMenu menu);
         public event FileContextMenuOpeningHandler FileContextMenuOpening;
 
-        private List<MenuItem> originalContextMenu = new List<MenuItem>();
+        public List<MenuItem> ExtraContextMenuItems { get; set; } = new List<MenuItem>();
+
 
         public TabbedFileBrowserControl()
         {
@@ -37,14 +38,11 @@ namespace TabbedFileBrowser
             ViewModel = new TabbedFileBrowserViewModel();
             DataContext = ViewModel;
 
-            // Save the original context menu so it can be restored
-            // every time it is opened.  Also make sure it's bound to the VM
+            // Make sure the context menu is bound to the viewmodel
             ContextMenu menu = FindResource("fileContextMenu") as ContextMenu;
             menu.DataContext = ViewModel;
-
-            foreach (MenuItem i in menu.Items)
-                originalContextMenu.Add(i);
         }
+
 
         // Misc methods
 
@@ -84,7 +82,6 @@ namespace TabbedFileBrowser
             // We didn't find it, so throw
             throw new Exception("Couldn't find tab that goes with this close button.");
         }
-
 
 
         // Event handlers
@@ -144,16 +141,22 @@ namespace TabbedFileBrowser
                 ViewModel.CurrentTab.NavigateTo(dir.FullName);
         }
 
+        private bool alreadyAdded = false;
         private void File_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var item = (ListBoxItem)sender;
             var file = (FileSystemInfo)(item.Content);
             var contextMenu = item.ContextMenu;
 
-            // Restore the original context menu
-            contextMenu.Items.Clear();
-            foreach (MenuItem i in originalContextMenu)
-                contextMenu.Items.Add(i);
+            // Add the extra menu items, if they haven't been already
+            if (!alreadyAdded && ExtraContextMenuItems.Count > 0)
+            {
+                alreadyAdded = true;
+
+                contextMenu.Items.Add(new Separator());
+                foreach (MenuItem i in ExtraContextMenuItems)
+                    contextMenu.Items.Add(i);
+            }
 
             // Give the application a chance to make their own changes to it
             FileContextMenuOpening?.Invoke(file, contextMenu);
