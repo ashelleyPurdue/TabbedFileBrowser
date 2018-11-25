@@ -6,6 +6,28 @@
              xmlns:local="clr-namespace:TabbedFileBrowser"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ContextMenu x:Key="fileContextMenu">
+
+            <MenuItem 
+                Header="Open"/>
+            
+            <MenuItem
+                Header="Open in new tab"
+                IsEnabled="{Binding OpenNewTabContextMenuEnabled}"/>
+            
+            <MenuItem 
+                Header="Copy"/>
+            
+            <MenuItem 
+                Header="Cut"/>
+            
+            <MenuItem 
+                Header="Paste"
+                IsEnabled="{Binding PasteEnabled}"/>
+
+        </ContextMenu>
+    </UserControl.Resources>
     <DockPanel>
 
         <!-- TODO: Find some way to style all controls at once, to make this DRY -->
@@ -136,7 +158,15 @@
                     <EventSetter 
                         Event="MouseDoubleClick"
                         Handler="File_MouseDoubleClick"/>
-                    
+
+                    <EventSetter
+                        Event="ContextMenuOpening"
+                        Handler="File_ContextMenuOpening"/>
+
+                    <Setter 
+                        Property="ContextMenu"
+                        Value="{StaticResource fileContextMenu}"/>
+
                 </Style>
             </ListBox.Resources>
             

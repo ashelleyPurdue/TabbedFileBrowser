@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using PropertyChanged;
 
 namespace TabbedFileBrowser
 {
@@ -24,10 +25,14 @@ namespace TabbedFileBrowser
 
         public FilterStringParser ParseFilterString { get; set; } = DefaultFilterStringParser;
 
+        [DependsOn("SelectedFileIndex")] public bool OpenNewTabContextMenuEnabled => SelectedFile is DirectoryInfo;
+        public bool PasteEnabled => false;  // TODO: Set this to true if the user has copied something;
+
 
         // Private fields
         private ObservableCollection<ITabViewModel> tabs = new ObservableCollection<ITabViewModel>();
         
+
         // Constructor
         public TabbedFileBrowserViewModel()
         {
