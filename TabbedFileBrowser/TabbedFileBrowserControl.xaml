@@ -14,7 +14,8 @@
             
             <MenuItem
                 Header="Open in new tab"
-                IsEnabled="{Binding OpenNewTabContextMenuEnabled}"/>
+                IsEnabled="{Binding OpenNewTabContextMenuEnabled}"
+                Click="OpenInNewTabMenuItem_Click"/>
             
             <MenuItem 
                 Header="Copy"/>

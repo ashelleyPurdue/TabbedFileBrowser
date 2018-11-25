@@ -161,5 +161,13 @@ namespace TabbedFileBrowser
             // Give the application a chance to make their own changes to it
             FileContextMenuOpening?.Invoke(file, contextMenu);
         }
+
+        private void OpenInNewTabMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string folder = ViewModel.SelectedFile.FullName;
+
+            ViewModel.NewTab(folder);
+            ViewModel.SelectedTabIndex++;
+        }
     }
 }
