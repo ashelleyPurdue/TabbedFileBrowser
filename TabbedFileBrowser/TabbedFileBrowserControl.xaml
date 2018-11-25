@@ -136,6 +136,18 @@
                     <EventSetter 
                         Event="MouseDoubleClick"
                         Handler="File_MouseDoubleClick"/>
+
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                
+                                <MenuItem Header="Copy"/>
+                                <MenuItem Header="Cut"/>
+                                <MenuItem Header="Paste"/>
+
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
                     
                 </Style>
             </ListBox.Resources>
