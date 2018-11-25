@@ -10,7 +10,8 @@
         <ContextMenu x:Key="fileContextMenu">
 
             <MenuItem 
-                Header="Open"/>
+                Header="Open"
+                Click="OpenMenuItem_Click"/>
             
             <MenuItem
                 Header="Open in new tab"

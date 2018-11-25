@@ -162,6 +162,22 @@ namespace TabbedFileBrowser
             FileContextMenuOpening?.Invoke(file, contextMenu);
         }
 
+        private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            FileSystemInfo file = ViewModel.SelectedFile;
+
+
+            // If it's a folder, navigate to it.
+            if (ViewModel.SelectedFile is DirectoryInfo)
+            {
+                ViewModel.CurrentTab.NavigateTo(file.FullName);
+                return;
+            }
+
+            // TODO: If it's a file, open it with the shell.
+            throw new NotImplementedException();
+        }
+
         private void OpenInNewTabMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string folder = ViewModel.SelectedFile.FullName;
