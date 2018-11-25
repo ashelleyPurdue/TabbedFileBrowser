@@ -24,7 +24,9 @@ namespace TabbedFileBrowser
         public ITabbedFileBrowserViewModel ViewModel { get; private set; }
 
         public event EventHandler<FileSystemInfo> FileDoubleClicked;
-        public event Action<FileSystemInfo, ContextMenu> FileContextMenuOpening;
+
+        public delegate void FileContextMenuOpeningHandler(FileSystemInfo file, ContextMenu menu);
+        public event FileContextMenuOpeningHandler FileContextMenuOpening;
 
         public TabbedFileBrowserControl()
         {
@@ -132,16 +134,37 @@ namespace TabbedFileBrowser
                 ViewModel.CurrentTab.NavigateTo(dir.FullName);
         }
 
+        private bool originalSaved = false;
+        private List<MenuItem> originalMenu = new List<MenuItem>();
         private void File_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var item = (ListBoxItem)sender;
             var file = (FileSystemInfo)(item.Content);
+            var contextMenu = item.ContextMenu;
 
-            // TODO: Modify the context menu before opening
-            ContextMenu menu = item.ContextMenu;
+            // If the original menu hasn't been saved yet, save it.
+            if (!originalSaved)
+            {
+                originalSaved = true;
 
-            // Give the application a chance to further modify it
-            FileContextMenuOpening?.Invoke(file, menu);
+                foreach (MenuItem i in contextMenu.Items)
+                    originalMenu.Add(i);
+            }
+
+            // Restore the original context menu
+            contextMenu.Items.Clear();
+            foreach (MenuItem i in originalMenu)
+                contextMenu.Items.Add(i);
+
+            // TODO: Make changes to it
+            var openItem = new MenuItem()
+            {
+                Header = "Open"
+            };
+            contextMenu.Items.Add(openItem);
+
+            // Give the application a chance to make their own changes to it
+            FileContextMenuOpening?.Invoke(file, contextMenu);
         }
     }
 }
