@@ -16,6 +16,9 @@ namespace TabbedFileBrowser
         
         FilterStringParser ParseFilterString { get; set; }
 
+        bool OpenNewTabContextMenuEnabled { get; }
+        bool PasteEnabled { get; }
+
         void NewTab(string folderPath);
         void CloseTab(int index);
     }

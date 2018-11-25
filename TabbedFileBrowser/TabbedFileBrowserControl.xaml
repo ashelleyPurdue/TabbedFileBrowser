@@ -9,9 +9,22 @@
     <UserControl.Resources>
         <ContextMenu x:Key="fileContextMenu">
 
-            <MenuItem Header="Copy"/>
-            <MenuItem Header="Cut"/>
-            <MenuItem Header="Paste"/>
+            <MenuItem 
+                Header="Open"/>
+            
+            <MenuItem
+                Header="Open in new tab"
+                IsEnabled="{Binding OpenNewTabContextMenuEnabled}"/>
+            
+            <MenuItem 
+                Header="Copy"/>
+            
+            <MenuItem 
+                Header="Cut"/>
+            
+            <MenuItem 
+                Header="Paste"
+                IsEnabled="{Binding PasteEnabled}"/>
 
         </ContextMenu>
     </UserControl.Resources>

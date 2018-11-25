@@ -38,8 +38,10 @@ namespace TabbedFileBrowser
             DataContext = ViewModel;
 
             // Save the original context menu so it can be restored
-            // every time it is opened
+            // every time it is opened.  Also make sure it's bound to the VM
             ContextMenu menu = FindResource("fileContextMenu") as ContextMenu;
+            menu.DataContext = ViewModel;
+
             foreach (MenuItem i in menu.Items)
                 originalContextMenu.Add(i);
         }
@@ -152,13 +154,6 @@ namespace TabbedFileBrowser
             contextMenu.Items.Clear();
             foreach (MenuItem i in originalContextMenu)
                 contextMenu.Items.Add(i);
-
-            // TODO: Make changes to it
-            var openItem = new MenuItem()
-            {
-                Header = "Open"
-            };
-            contextMenu.Items.Insert(0, openItem);
 
             // Give the application a chance to make their own changes to it
             FileContextMenuOpening?.Invoke(file, contextMenu);
