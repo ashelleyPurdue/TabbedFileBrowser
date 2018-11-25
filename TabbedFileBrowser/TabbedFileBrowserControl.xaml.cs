@@ -24,6 +24,7 @@ namespace TabbedFileBrowser
         public ITabbedFileBrowserViewModel ViewModel { get; private set; }
 
         public event EventHandler<FileSystemInfo> FileDoubleClicked;
+        public event Action<FileSystemInfo, ContextMenu> FileContextMenuOpening;
 
         public TabbedFileBrowserControl()
         {
@@ -71,6 +72,7 @@ namespace TabbedFileBrowser
             // We didn't find it, so throw
             throw new Exception("Couldn't find tab that goes with this close button.");
         }
+
 
 
         // Event handlers
@@ -128,6 +130,18 @@ namespace TabbedFileBrowser
             // If it's a folder, navigate there.
             if (file is DirectoryInfo dir)
                 ViewModel.CurrentTab.NavigateTo(dir.FullName);
+        }
+
+        private void File_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var item = (ListBoxItem)sender;
+            var file = (FileSystemInfo)(item.Content);
+
+            // TODO: Modify the context menu before opening
+            ContextMenu menu = item.ContextMenu;
+
+            // Give the application a chance to further modify it
+            FileContextMenuOpening?.Invoke(file, menu);
         }
     }
 }

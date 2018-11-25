@@ -137,6 +137,10 @@
                         Event="MouseDoubleClick"
                         Handler="File_MouseDoubleClick"/>
 
+                    <EventSetter
+                        Event="ContextMenuOpening"
+                        Handler="File_ContextMenuOpening"/>
+
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
