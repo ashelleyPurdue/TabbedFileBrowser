@@ -12,21 +12,11 @@
             <MenuItem 
                 Header="Open"
                 Click="OpenMenuItem_Click"/>
-            
+
             <MenuItem
                 Header="Open in new tab"
                 IsEnabled="{Binding OpenNewTabContextMenuEnabled}"
                 Click="OpenInNewTabMenuItem_Click"/>
-            
-            <MenuItem 
-                Header="Copy"/>
-            
-            <MenuItem 
-                Header="Cut"/>
-            
-            <MenuItem 
-                Header="Paste"
-                IsEnabled="{Binding PasteEnabled}"/>
 
         </ContextMenu>
     </UserControl.Resources>
