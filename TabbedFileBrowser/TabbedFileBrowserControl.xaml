@@ -145,8 +145,10 @@
                         <Setter.Value>
                             <ContextMenu>
 
+                                <!-- IsEnabled is only like this temporarily, until I implement "open" for files. -->
                                 <MenuItem 
                                     Header="Open"
+                                    IsEnabled="{Binding OpenNewTabContextMenuEnabled}"
                                     Click="OpenMenuItem_Click"/>
 
                                 <MenuItem
