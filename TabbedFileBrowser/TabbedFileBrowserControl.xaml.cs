@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Collections.Specialized;
 
 namespace TabbedFileBrowser
 {
@@ -29,6 +30,9 @@ namespace TabbedFileBrowser
         public event FileContextMenuOpeningHandler FileContextMenuOpening;
 
         public List<MenuItem> ExtraContextMenuItems { get; set; } = new List<MenuItem>();
+
+
+        private bool alreadyAddedExtraContextMenuItems = false;
 
 
         public TabbedFileBrowserControl()
@@ -141,7 +145,6 @@ namespace TabbedFileBrowser
                 ViewModel.CurrentTab.NavigateTo(dir.FullName);
         }
 
-        private bool alreadyAdded = false;
         private void File_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var item = (ListBoxItem)sender;
@@ -149,9 +152,10 @@ namespace TabbedFileBrowser
             var contextMenu = item.ContextMenu;
 
             // Add the extra menu items, if they haven't been already
-            if (!alreadyAdded && ExtraContextMenuItems.Count > 0)
+            if (!alreadyAddedExtraContextMenuItems && ExtraContextMenuItems.Count > 0)
             {
-                alreadyAdded = true;
+                alreadyAddedExtraContextMenuItems = true;
+                contextMenu.DataContext = ViewModel;
 
                 contextMenu.Items.Add(new Separator());
                 foreach (MenuItem i in ExtraContextMenuItems)
@@ -165,7 +169,6 @@ namespace TabbedFileBrowser
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
             FileSystemInfo file = ViewModel.SelectedFile;
-
 
             // If it's a folder, navigate to it.
             if (ViewModel.SelectedFile is DirectoryInfo)
@@ -185,5 +188,14 @@ namespace TabbedFileBrowser
             ViewModel.NewTab(folder);
             ViewModel.SelectedTabIndex++;
         }
+
+        private void CopyMenuItem_Click(object sender, RoutedEventArgs e)
+            => ViewModel.CopyFile(ViewModel.SelectedFile);
+
+        private void CutMenuItem_Click(object sender, RoutedEventArgs e)
+            => ViewModel.CutFile(ViewModel.SelectedFile);
+
+        private void PasteMenuItem_Click(object sender, RoutedEventArgs e)
+            => ViewModel.PasteFile();
     }
 }

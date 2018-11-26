@@ -9,23 +9,28 @@
     <UserControl.Resources>
         <ContextMenu x:Key="fileContextMenu">
 
+            <!-- IsEnabled is only like this temporarily, until I implement "open" for files. -->
             <MenuItem 
                 Header="Open"
+                IsEnabled="{Binding OpenNewTabContextMenuEnabled}"
                 Click="OpenMenuItem_Click"/>
-            
+
             <MenuItem
                 Header="Open in new tab"
                 IsEnabled="{Binding OpenNewTabContextMenuEnabled}"
                 Click="OpenInNewTabMenuItem_Click"/>
-            
+
             <MenuItem 
-                Header="Copy"/>
-            
+                Header="Copy"
+                Click="CopyMenuItem_Click"/>
+
             <MenuItem 
-                Header="Cut"/>
-            
+                Header="Cut"
+                Click="CutMenuItem_Click"/>
+
             <MenuItem 
                 Header="Paste"
+                Click="PasteMenuItem_Click"
                 IsEnabled="{Binding PasteEnabled}"/>
 
         </ContextMenu>

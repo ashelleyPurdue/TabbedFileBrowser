@@ -25,13 +25,19 @@ namespace TabbedFileBrowser
 
         public FilterStringParser ParseFilterString { get; set; } = DefaultFilterStringParser;
 
-        [DependsOn("SelectedFileIndex")] public bool OpenNewTabContextMenuEnabled => SelectedFile is DirectoryInfo;
-        public bool PasteEnabled => false;  // TODO: Set this to true if the user has copied something;
+        [DependsOn("SelectedFileIndex")]
+        public bool OpenNewTabContextMenuEnabled => SelectedFile is DirectoryInfo;
+
+        [DependsOn("CopiedFile")]
+        public bool PasteEnabled => CopiedFile != null;
 
 
         // Private fields
         private ObservableCollection<ITabViewModel> tabs = new ObservableCollection<ITabViewModel>();
-        
+
+        private bool IsClipboardCutting { get; set; }       // If the user has a file on the clipboard, did they cut it or merely copy it?
+        private FileSystemInfo CopiedFile { get; set; }     // The file currently on the clipboard
+
 
         // Constructor
         public TabbedFileBrowserViewModel()
@@ -77,6 +83,30 @@ namespace TabbedFileBrowser
             SelectedTabIndex = newSelectedIndex;
         }
 
+        public void CopyFile(FileSystemInfo file)
+        {
+            IsClipboardCutting = false;
+            CopiedFile = file;
+        }
+
+        public void CutFile(FileSystemInfo file)
+        {
+            IsClipboardCutting = true;
+            CopiedFile = file;
+        }
+
+        public void PasteFile()
+        {
+            string dest = Path.Combine(CurrentTab.CurrentFolder, CopiedFile.Name);
+
+            // Either move it or copy it, depending on what the user selected
+            if (IsClipboardCutting)
+                CopiedFile.Move(dest);
+            else
+                CopiedFile.Copy(dest);
+
+            IsClipboardCutting = false;
+        }
 
         // Misc methods
 
