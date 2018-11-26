@@ -8,6 +8,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <tfb:TabbedFileBrowserControl x:Name="browser"/>
+        <tfb:TabbedFileBrowserControl x:Name="browser">
+            <tfb:TabbedFileBrowserControl.ExtraContextMenuItems>
+                <MenuItem Header="Extra item"/>
+            </tfb:TabbedFileBrowserControl.ExtraContextMenuItems>
+        </tfb:TabbedFileBrowserControl>
     </Grid>
 </Window>

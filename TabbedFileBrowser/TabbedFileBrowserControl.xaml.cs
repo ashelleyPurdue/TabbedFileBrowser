@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace TabbedFileBrowser
 {
@@ -22,13 +23,26 @@ namespace TabbedFileBrowser
     {
         public ITabbedFileBrowserViewModel ViewModel { get; private set; }
 
+        public event EventHandler<FileSystemInfo> FileDoubleClicked;
+
+        public delegate void FileContextMenuOpeningHandler(FileSystemInfo file, ContextMenu menu);
+        public event FileContextMenuOpeningHandler FileContextMenuOpening;
+
+        public List<MenuItem> ExtraContextMenuItems { get; set; } = new List<MenuItem>();
+
+
         public TabbedFileBrowserControl()
         {
             InitializeComponent();
 
             ViewModel = new TabbedFileBrowserViewModel();
             DataContext = ViewModel;
+
+            // Make sure the context menu is bound to the viewmodel
+            ContextMenu menu = FindResource("fileContextMenu") as ContextMenu;
+            menu.DataContext = ViewModel;
         }
+
 
         // Misc methods
 
@@ -113,6 +127,64 @@ namespace TabbedFileBrowser
             }
 
             ViewModel.SelectedTabIndex = tabsList.SelectedIndex;
+        }
+
+        private void File_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var file = (sender as ListBoxItem).Content as FileSystemInfo;
+
+            // Forward the event
+            FileDoubleClicked?.Invoke(this, file);
+
+            // If it's a folder, navigate there.
+            if (file is DirectoryInfo dir)
+                ViewModel.CurrentTab.NavigateTo(dir.FullName);
+        }
+
+        private bool alreadyAdded = false;
+        private void File_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var item = (ListBoxItem)sender;
+            var file = (FileSystemInfo)(item.Content);
+            var contextMenu = item.ContextMenu;
+
+            // Add the extra menu items, if they haven't been already
+            if (!alreadyAdded && ExtraContextMenuItems.Count > 0)
+            {
+                alreadyAdded = true;
+
+                contextMenu.Items.Add(new Separator());
+                foreach (MenuItem i in ExtraContextMenuItems)
+                    contextMenu.Items.Add(i);
+            }
+
+            // Give the application a chance to make their own changes to it
+            FileContextMenuOpening?.Invoke(file, contextMenu);
+        }
+
+        private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            FileSystemInfo file = ViewModel.SelectedFile;
+
+            // If it's a folder, navigate to it.
+            if (file is DirectoryInfo)
+            {
+                ViewModel.CurrentTab.NavigateTo(file.FullName);
+                return;
+            }
+
+            // TODO: If it's a shortcut, resolve it.
+
+            // If it's a file, open it with the shell.
+            System.Diagnostics.Process.Start(file.FullName);
+        }
+
+        private void OpenInNewTabMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string folder = ViewModel.SelectedFile.FullName;
+
+            ViewModel.NewTab(folder);
+            ViewModel.SelectedTabIndex++;
         }
     }
 }
