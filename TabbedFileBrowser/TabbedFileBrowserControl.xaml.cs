@@ -166,16 +166,17 @@ namespace TabbedFileBrowser
         {
             FileSystemInfo file = ViewModel.SelectedFile;
 
-
             // If it's a folder, navigate to it.
-            if (ViewModel.SelectedFile is DirectoryInfo)
+            if (file is DirectoryInfo)
             {
                 ViewModel.CurrentTab.NavigateTo(file.FullName);
                 return;
             }
 
-            // TODO: If it's a file, open it with the shell.
-            throw new NotImplementedException();
+            // TODO: If it's a shortcut, resolve it.
+
+            // If it's a file, open it with the shell.
+            System.Diagnostics.Process.Start(file.FullName);
         }
 
         private void OpenInNewTabMenuItem_Click(object sender, RoutedEventArgs e)
