@@ -37,10 +37,6 @@ namespace TabbedFileBrowser
 
             ViewModel = new TabbedFileBrowserViewModel();
             DataContext = ViewModel;
-
-            // Make sure the context menu is bound to the viewmodel
-            ContextMenu menu = FindResource("fileContextMenu") as ContextMenu;
-            menu.DataContext = ViewModel;
         }
 
 
@@ -152,6 +148,7 @@ namespace TabbedFileBrowser
             if (!alreadyAdded && ExtraContextMenuItems.Count > 0)
             {
                 alreadyAdded = true;
+                contextMenu.DataContext = ViewModel;
 
                 contextMenu.Items.Add(new Separator());
                 foreach (MenuItem i in ExtraContextMenuItems)
