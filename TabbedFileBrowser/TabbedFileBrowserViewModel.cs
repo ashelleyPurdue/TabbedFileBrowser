@@ -106,6 +106,7 @@ namespace TabbedFileBrowser
                 CopiedFile.Copy(dest);
 
             IsClipboardCutting = false;
+            CurrentTab.Refresh();
         }
 
         // Misc methods
