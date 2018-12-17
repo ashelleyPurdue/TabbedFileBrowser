@@ -20,153 +20,150 @@
 
         </ContextMenu>
     </UserControl.Resources>
-    <DockPanel>
 
-        <!-- TODO: Find some way to style all controls at once, to make this DRY -->
+    <!-- TODO: Find some way to style all controls at once, to make this DRY -->
 
-        <!-- Tab bar -->
-        <StackPanel 
-            DockPanel.Dock="Top"
-            Margin="5">
-            
-            <Button
-                Content="+"
-                Click="NewTab_Click"/>
+    <!-- Tab bar -->
+    <StackPanel 
+        DockPanel.Dock="Top"
+        Margin="5">
 
-            <TabControl 
-                x:Name="tabsList"
-                ItemsSource="{Binding Tabs}"
-                SelectedIndex="{Binding SelectedTabIndex}">
+        <Button
+            Content="+"
+            Click="NewTab_Click"/>
 
-                <!-- Tab header -->
-                <TabControl.ItemTemplate>
-                    <DataTemplate>
+        <TabControl 
+            x:Name="tabsList"
+            ItemsSource="{Binding Tabs}"
+            SelectedIndex="{Binding SelectedTabIndex}">
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Title}"/>
+            <!-- Tab header -->
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}"/>
+                        <Button
+                            Content="x"
+                            Click="CloseTab_Click"/>
+                    </StackPanel>
+
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <!-- The contents of the tab-->
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <DockPanel>
+
+                        <!-- Navigation -->
+                        <DockPanel 
+                            DockPanel.Dock="Top"
+                            Margin="5">
+
+                            <DockPanel.Resources>
+                                <Style TargetType="Button">
+                                    <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+                                    <Setter Property="Width" Value="20"/>
+                                </Style>
+                            </DockPanel.Resources>
+
+                            <!-- Navigation buttons -->
                             <Button
-                                Content="x"
-                                Click="CloseTab_Click"/>
-                        </StackPanel>
-                        
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
+                                Content="❮"
+                                IsEnabled="{Binding HasPrevFolder}"
+                                Click="MoveBack_Click"/>
 
-                <!-- The contents of the tab-->
-                <TabControl.ContentTemplate>
-                    <DataTemplate>
-                        <DockPanel>
-                            
-                            <!-- Navigation -->
-                            <DockPanel 
-                                DockPanel.Dock="Top"
-                                Margin="5">     
+                            <Button
+                                Content="⭡"
+                                IsEnabled="{Binding HasParentFolder}"
+                                Click="MoveUp_Click"/>
 
-                                <DockPanel.Resources>
-                                    <Style TargetType="Button">
-                                        <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
-                                        <Setter Property="Width" Value="20"/>
-                                    </Style>
-                                </DockPanel.Resources>
+                            <Button
+                                Content="❯"
+                                IsEnabled="{Binding HasNextFolder}"
+                                Margin="0,0,5,0"
+                                Click="MoveForward_Click"/>
 
-                                <!-- Navigation buttons -->
-                                <Button
-                                    Content="❮"
-                                    IsEnabled="{Binding HasPrevFolder}"
-                                    Click="MoveBack_Click"/>
+                            <Grid DockPanel.Dock="Left">
 
-                                <Button
-                                    Content="⭡"
-                                    IsEnabled="{Binding HasParentFolder}"
-                                    Click="MoveUp_Click"/>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20*"/>
+                                    <ColumnDefinition Width="9*"/>
+                                </Grid.ColumnDefinitions>
 
-                                <Button
-                                    Content="❯"
-                                    IsEnabled="{Binding HasNextFolder}"
-                                    Margin="0,0,5,0"
-                                    Click="MoveForward_Click"/>
+                                <!-- Current path textbox -->
+                                <TextBox 
+                                    x:Name="currentPathBox"
+                                    Grid.Column="0"
+                                    Margin="0,0,10,0"
+                                    Text="{Binding CurrentFolder, Mode=OneWay}"
+                                    KeyDown="CurrentPathBox_KeyDown"/>
 
-                                <Grid DockPanel.Dock="Left">
+                                <GridSplitter
+                                    Grid.Column="0"
+                                    Width="10"
+                                    Background="Transparent"/>
 
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="20*"/>
-                                        <ColumnDefinition Width="9*"/>
-                                    </Grid.ColumnDefinitions>
+                                <!-- Filter textbox -->
+                                <TextBox
+                                    Grid.Column="1"
+                                    Text=
+                                    "{
+                                        Binding FilterString,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged
+                                    }"
+                                    KeyDown="FilterTextbox_EnterPressed"/>
+                            </Grid>
 
-                                    <!-- Current path textbox -->
-                                    <TextBox 
-                                        x:Name="currentPathBox"
-                                        Grid.Column="0"
-                                        Margin="0,0,10,0"
-                                        Text="{Binding CurrentFolder, Mode=OneWay}"
-                                        KeyDown="CurrentPathBox_KeyDown"/>
+                        </DockPanel>
 
-                                    <GridSplitter
-                                        Grid.Column="0"
-                                        Width="10"
-                                        Background="Transparent"/>
-
-                                    <!-- Filter textbox -->
-                                    <TextBox
-                                        Grid.Column="1"
-                                        Text=
-                                        "{
-                                            Binding FilterString,
-                                            Mode=TwoWay,
-                                            UpdateSourceTrigger=PropertyChanged
-                                        }"
-                                        KeyDown="FilterTextbox_EnterPressed"/>
-                                </Grid>
-
-                            </DockPanel>
-
-                            <!-- VisibleFiles -->
-                            <ListBox
-                                DockPanel.Dock="Top"
-                                Margin="5"
-                                ItemsSource="{Binding VisibleFiles}"
-                                SelectedIndex=
-                                "{
-                                    Binding ViewModel.SelectedFileIndex, 
-                                    RelativeSource={RelativeSource AncestorType=local:TabbedFileBrowserControl},
-                                    Mode=TwoWay
-                                }"
-                                SelectedItem=
-                                "{
-                                    Binding ViewModel.SelectedFile, 
-                                    RelativeSource={RelativeSource AncestorType=local:TabbedFileBrowserControl},
-                                    Mode=TwoWay
-                                }">
+                        <!-- VisibleFiles -->
+                        <ListBox
+                            DockPanel.Dock="Top"
+                            Margin="5"
+                            ItemsSource="{Binding VisibleFiles}"
+                            SelectedIndex=
+                            "{
+                                Binding ViewModel.SelectedFileIndex, 
+                                RelativeSource={RelativeSource AncestorType=local:TabbedFileBrowserControl},
+                                Mode=TwoWay
+                            }"
+                            SelectedItem=
+                            "{
+                                Binding ViewModel.SelectedFile, 
+                                RelativeSource={RelativeSource AncestorType=local:TabbedFileBrowserControl},
+                                Mode=TwoWay
+                            }">
 
                             <ListBox.Resources>
-                                    <Style 
-                                        x:Key="{x:Type ListBoxItem}"
-                                        TargetType="ListBoxItem">
+                                <Style 
+                                    x:Key="{x:Type ListBoxItem}"
+                                    TargetType="ListBoxItem">
 
-                                        <EventSetter 
-                                            Event="MouseDoubleClick"
-                                            Handler="File_MouseDoubleClick"/>
+                                    <EventSetter 
+                                        Event="MouseDoubleClick"
+                                        Handler="File_MouseDoubleClick"/>
 
-                                        <EventSetter
-                                            Event="ContextMenuOpening"
-                                            Handler="File_ContextMenuOpening"/>
+                                    <EventSetter
+                                        Event="ContextMenuOpening"
+                                        Handler="File_ContextMenuOpening"/>
 
-                                        <Setter 
-                                            Property="ContextMenu"
-                                            Value="{StaticResource fileContextMenu}"/>
+                                    <Setter 
+                                        Property="ContextMenu"
+                                        Value="{StaticResource fileContextMenu}"/>
 
-                                    </Style>
-                                </ListBox.Resources>
+                                </Style>
+                            </ListBox.Resources>
 
-                            </ListBox>
-                            
-                        </DockPanel>
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-                
-            </TabControl>
+                        </ListBox>
 
-        </StackPanel>
+                    </DockPanel>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
 
-    </DockPanel>
+        </TabControl>
+
+    </StackPanel>
 </UserControl>
