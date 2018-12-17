@@ -33,7 +33,9 @@
                 Content="+"
                 Click="NewTab_Click"/>
 
-            <TabControl ItemsSource="{Binding Tabs}">
+            <TabControl 
+                x:Name="tabsList"
+                ItemsSource="{Binding Tabs}">
 
                 <!-- Tab header -->
                 <TabControl.ItemTemplate>

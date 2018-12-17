@@ -74,7 +74,9 @@ namespace TabbedFileBrowser
             }
 
             var itemsInListbox = ViewModel.Tabs
-                                            .Select(t => tabsList.ItemContainerGenerator.ContainerFromItem(t))
+                                            .Select(t => tabsList
+                                                            .ItemContainerGenerator
+                                                            .ContainerFromItem(t))
                                             .ToList();
 
             return itemsInListbox.FindIndex(HasCloseButtonAsChild);
@@ -100,8 +102,10 @@ namespace TabbedFileBrowser
         private void CurrentPathBox_KeyDown(object sender, KeyEventArgs e)
         {
             // TODO: Validate the input first
+            var tb = (TextBox)sender;
+
             if (e.Key == Key.Enter)
-                ViewModel.CurrentTab.NavigateTo(currentPathBox.Text);
+                ViewModel.CurrentTab.NavigateTo(tb.Text);
         }
 
         private void FilterTextbox_EnterPressed(object sender, KeyEventArgs e)
