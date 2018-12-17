@@ -35,7 +35,8 @@
 
             <TabControl 
                 x:Name="tabsList"
-                ItemsSource="{Binding Tabs}">
+                ItemsSource="{Binding Tabs}"
+                SelectedIndex="{Binding SelectedTabIndex}">
 
                 <!-- Tab header -->
                 <TabControl.ItemTemplate>
@@ -71,17 +72,17 @@
                                 <!-- Navigation buttons -->
                                 <Button
                                     Content="❮"
-                                    IsEnabled="{Binding CurrentTab.HasPrevFolder}"
+                                    IsEnabled="{Binding HasPrevFolder}"
                                     Click="MoveBack_Click"/>
 
                                 <Button
                                     Content="⭡"
-                                    IsEnabled="{Binding CurrentTab.HasParentFolder}"
+                                    IsEnabled="{Binding HasParentFolder}"
                                     Click="MoveUp_Click"/>
 
                                 <Button
                                     Content="❯"
-                                    IsEnabled="{Binding CurrentTab.HasNextFolder}"
+                                    IsEnabled="{Binding HasNextFolder}"
                                     Margin="0,0,5,0"
                                     Click="MoveForward_Click"/>
 
@@ -97,7 +98,7 @@
                                         x:Name="currentPathBox"
                                         Grid.Column="0"
                                         Margin="0,0,10,0"
-                                        Text="{Binding CurrentTab.CurrentFolder, Mode=OneWay}"
+                                        Text="{Binding CurrentFolder, Mode=OneWay}"
                                         KeyDown="CurrentPathBox_KeyDown"/>
 
                                     <GridSplitter
@@ -110,7 +111,7 @@
                                         Grid.Column="1"
                                         Text=
                                         "{
-                                            Binding CurrentTab.FilterString,
+                                            Binding FilterString,
                                             Mode=TwoWay,
                                             UpdateSourceTrigger=PropertyChanged
                                         }"
@@ -123,7 +124,7 @@
                             <ListBox
                                 DockPanel.Dock="Top"
                                 Margin="5"
-                                ItemsSource="{Binding CurrentTab.VisibleFiles}"
+                                ItemsSource="{Binding VisibleFiles}"
                                 SelectedIndex="{Binding SelectedFileIndex, Mode=TwoWay}"
                                 SelectedItem="{Binding SelectedFile, Mode=TwoWay}">
 
