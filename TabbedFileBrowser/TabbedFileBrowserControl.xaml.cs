@@ -13,13 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.ComponentModel;
+using PropertyChanged;
 
 namespace TabbedFileBrowser
 {
     /// <summary>
     /// Interaction logic for TabbedFileBrowser.xaml
     /// </summary>
-    public partial class TabbedFileBrowserControl : UserControl
+    public partial class TabbedFileBrowserControl : UserControl, INotifyPropertyChanged
     {
         public ITabbedFileBrowserViewModel ViewModel { get; private set; }
 
@@ -27,6 +29,13 @@ namespace TabbedFileBrowser
 
         public delegate void FileContextMenuOpeningHandler(FileSystemInfo file, ContextMenu menu);
         public event FileContextMenuOpeningHandler FileContextMenuOpening;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [DependsOn("ViewModel")]
+        public IEnumerable<ITabViewModel> TabsPlusNewTabButton => 
+            ViewModel
+                .Tabs
+                .Append(null);  // The null at the end represents the new-tab button
 
         public List<MenuItem> ExtraContextMenuItems { get; set; } = new List<MenuItem>();
 

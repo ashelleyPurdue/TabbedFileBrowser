@@ -34,20 +34,54 @@
 
         <TabControl 
             x:Name="tabsList"
-            ItemsSource="{Binding Tabs}"
+            ItemsSource=
+            "{
+                Binding TabsPlusNewTabButton, 
+                RelativeSource={RelativeSource AncestorType=local:TabbedFileBrowserControl}
+            }"
             SelectedIndex="{Binding SelectedTabIndex}">
 
             <!-- Tab header -->
             <TabControl.ItemTemplate>
                 <DataTemplate>
+                    
+                    <DataTemplate.Resources>
+                        
+                        <!-- This template is used for all tabs -->
+                        <ControlTemplate x:Key="normalTemplate">
+                            
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Title}"/>
+                                <Button
+                                    Content="x"
+                                    Click="CloseTab_Click"/>    
+                            </StackPanel>
+                            
+                        </ControlTemplate>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Title}"/>
-                        <Button
-                            Content="x"
-                            Click="CloseTab_Click"/>
-                    </StackPanel>
+                        <!-- This template is used for the "+" button -->
+                        <ControlTemplate x:Key="plusButtonTemplate">
+                            
+                            <Button
+                                Content="+"
+                                Click="NewTab_Click"/>
+                            
+                        </ControlTemplate>
+                        
+                    </DataTemplate.Resources>
 
+                    <Control x:Name="dummyControl" Template="{StaticResource normalTemplate}"/>
+                    
+                    <!-- Swap to the "+" button template if this is the fake tab -->
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                            <Setter 
+                                TargetName="dummyControl"
+                                Property="Template"
+                                Value="{StaticResource plusButtonTemplate}"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                    
                 </DataTemplate>
             </TabControl.ItemTemplate>
 
