@@ -15,6 +15,7 @@ namespace TabbedFileBrowser
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Public properties
+        [AlsoNotifyFor("TabsWithNull")]
         public IReadOnlyList<ITabViewModel> Tabs => tabs;
         public ITabViewModel CurrentTab => Tabs[SelectedTabIndex];
 
@@ -27,6 +28,9 @@ namespace TabbedFileBrowser
 
         [DependsOn("SelectedFileIndex")] public bool OpenNewTabContextMenuEnabled => SelectedFile is DirectoryInfo;
 
+        // HACK: Expose a version of Tabs but with null appended to the end.
+        // The null acts as a stand-in for the "+" button.  Yes, it's dirty.  Sue me.
+        public IEnumerable<ITabViewModel> TabsWithNull => Tabs.Append(null);
 
         // Private fields
         private ObservableCollection<ITabViewModel> tabs = new ObservableCollection<ITabViewModel>();
@@ -40,6 +44,24 @@ namespace TabbedFileBrowser
             var initialTab = new TabViewModel(this, workingDir);
 
             tabs.Add(initialTab);
+
+            // Raise PropertyChanged when the contents of tabs changes.
+            tabs.CollectionChanged += (s, a) =>
+            {
+                PropertyChanged?.Invoke
+                (
+                    this,
+                    new PropertyChangedEventArgs("Tabs")
+                );
+
+                // TODO: Remove this when we remove the TabsWithNull hack.
+                // That is, IF it ever gets removed.
+                PropertyChanged?.Invoke
+                (
+                    this,
+                    new PropertyChangedEventArgs("TabsWithNull")
+                );
+            };
         }
 
 
