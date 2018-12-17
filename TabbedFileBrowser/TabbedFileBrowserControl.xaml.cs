@@ -31,12 +31,6 @@ namespace TabbedFileBrowser
         public event FileContextMenuOpeningHandler FileContextMenuOpening;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [DependsOn("ViewModel")]
-        public IEnumerable<ITabViewModel> TabsPlusNewTabButton => 
-            ViewModel
-                .Tabs
-                .Append(null);  // The null at the end represents the new-tab button
-
         public List<MenuItem> ExtraContextMenuItems { get; set; } = new List<MenuItem>();
 
 

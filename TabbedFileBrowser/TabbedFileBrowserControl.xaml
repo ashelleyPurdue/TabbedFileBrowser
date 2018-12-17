@@ -34,11 +34,7 @@
 
         <TabControl 
             x:Name="tabsList"
-            ItemsSource=
-            "{
-                Binding TabsPlusNewTabButton, 
-                RelativeSource={RelativeSource AncestorType=local:TabbedFileBrowserControl}
-            }"
+            ItemsSource="{Binding TabsWithNull}"
             SelectedIndex="{Binding SelectedTabIndex}">
 
             <!-- Tab header -->

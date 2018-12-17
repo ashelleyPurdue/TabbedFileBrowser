@@ -27,6 +27,10 @@ namespace TabbedFileBrowser
 
         [DependsOn("SelectedFileIndex")] public bool OpenNewTabContextMenuEnabled => SelectedFile is DirectoryInfo;
 
+        // HACK: Expose a version of Tabs but with null appended to the end.
+        // The null acts as a stand-in for the "+" button.  Yes, it's dirty.  Sue me.
+        [DependsOn("Tabs")]
+        public IEnumerable<ITabViewModel> TabsWithNull => Tabs.Append(null);
 
         // Private fields
         private ObservableCollection<ITabViewModel> tabs = new ObservableCollection<ITabViewModel>();
