@@ -125,10 +125,20 @@
                                 DockPanel.Dock="Top"
                                 Margin="5"
                                 ItemsSource="{Binding VisibleFiles}"
-                                SelectedIndex="{Binding SelectedFileIndex, Mode=TwoWay}"
-                                SelectedItem="{Binding SelectedFile, Mode=TwoWay}">
+                                SelectedIndex=
+                                "{
+                                    Binding ViewModel.SelectedFileIndex, 
+                                    RelativeSource={RelativeSource AncestorType=local:TabbedFileBrowserControl},
+                                    Mode=TwoWay
+                                }"
+                                SelectedItem=
+                                "{
+                                    Binding ViewModel.SelectedFile, 
+                                    RelativeSource={RelativeSource AncestorType=local:TabbedFileBrowserControl},
+                                    Mode=TwoWay
+                                }">
 
-                                <ListBox.Resources>
+                            <ListBox.Resources>
                                     <Style 
                                         x:Key="{x:Type ListBoxItem}"
                                         TargetType="ListBoxItem">
