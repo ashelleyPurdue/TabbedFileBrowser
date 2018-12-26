@@ -12,7 +12,7 @@
         <DataTemplate DataType="{x:Type io:FileSystemInfo}">
             <StackPanel Orientation="Horizontal">
 
-                <local:FileIconView File="{Binding Path=FullName}"/>
+                <local:FileIconView File="{Binding}"/>
                 <TextBlock Text="{Binding Path=Name}"/>
 
             </StackPanel>
