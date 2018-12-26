@@ -58,11 +58,7 @@ namespace TabbedFileBrowser
 
         private ImageSource LoadIcon(FileSystemInfo file)
         {
-            // TODO: Treat folders differently
-            if (file is DirectoryInfo)
-                throw new NotImplementedException();
-
-            // TODO: check if the icon exists in the cache first
+            // Check if the icon exists in the cache first
             string ext = file.Extension.ToLower();
             if (iconCache.ContainsKey(ext))
                 return iconCache[ext];
