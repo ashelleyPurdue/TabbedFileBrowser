@@ -23,6 +23,8 @@ namespace TabbedFileBrowser
     /// </summary>
     public partial class FileIconView : UserControl
     {
+        private static Dictionary<string, ImageSource> iconCache = new Dictionary<string, ImageSource>();
+
         public static readonly DependencyProperty FilePathProperty = DependencyProperty.Register
         (
             "File", 
@@ -51,11 +53,20 @@ namespace TabbedFileBrowser
 
         private ImageSource LoadIcon(FileSystemInfo file)
         {
+            // TODO: Treat folders differently
+            if (file is DirectoryInfo)
+                throw new NotImplementedException();
+
             // TODO: check if the icon exists in the cache first
+            string ext = file.Extension.ToLower();
+            if (iconCache.ContainsKey(ext))
+                return iconCache[ext];
 
-            // Get the icon
-            var bmp = Icon.ExtractAssociatedIcon(file.FullName).ToBitmap();
 
+            // It's not in the cache, so load it
+            ImageSource imgSrc;
+
+            using (var bmp = Icon.ExtractAssociatedIcon(file.FullName).ToBitmap())
             using (var memory = new MemoryStream())
             {
                 bmp.Save(memory, ImageFormat.Png);
@@ -68,8 +79,12 @@ namespace TabbedFileBrowser
                 bitmapImage.EndInit();
                 bitmapImage.Freeze();
 
-                return bitmapImage;
+                imgSrc = bitmapImage;
             }
+
+            // Put it in the cache before returning it
+            iconCache.Add(ext, imgSrc);
+            return imgSrc;
         }
     }
 }
