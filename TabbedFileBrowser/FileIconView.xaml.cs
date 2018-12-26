@@ -20,9 +20,35 @@ namespace TabbedFileBrowser
     /// </summary>
     public partial class FileIconView : UserControl
     {
+        public static readonly DependencyProperty FilePathProperty = DependencyProperty.Register
+        (
+            "FilePath", 
+            typeof(string), 
+            typeof(FileIconView), 
+            new PropertyMetadata((s, a) =>
+            {
+                ((FileIconView)s).FilePath = (string)a.NewValue;
+            })
+        );
+
+        public string FilePath
+        {
+            get => (string)GetValue(FilePathProperty);
+            set
+            {
+                SetValue(FilePathProperty, value);
+                LoadIcon(value);
+            }
+        }
+
         public FileIconView()
         {
             InitializeComponent();
+        }
+
+        private void LoadIcon(string path)
+        {
+            text.Text = "(Placeholder icon for " + path + ")";
         }
     }
 }
