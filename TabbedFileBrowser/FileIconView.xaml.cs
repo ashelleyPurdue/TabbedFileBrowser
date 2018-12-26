@@ -42,6 +42,11 @@ namespace TabbedFileBrowser
             set
             {
                 SetValue(FilePathProperty, value);
+
+                // If it's a folder, just use the default icon(which is a folder)
+                if (value is DirectoryInfo)
+                    return;
+
                 image.Source = LoadIcon(value);
             }
         }
