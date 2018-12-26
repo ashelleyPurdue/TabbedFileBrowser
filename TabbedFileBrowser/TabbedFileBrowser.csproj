@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -57,6 +58,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileIconView.xaml.cs">
+      <DependentUpon>FileIconView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FileSystemInfoExtensions.cs" />
     <Compile Include="FilterCondition.cs" />
     <Compile Include="ITabViewModel.cs" />
@@ -66,6 +70,9 @@
     <Compile Include="TabbedFileBrowserViewModel.cs" />
     <Compile Include="TabViewModel.cs" />
     <Compile Include="ITabbedFileBrowserViewModel.cs" />
+    <Page Include="FileIconView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TabbedFileBrowserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -97,6 +104,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\folderIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.3.2.16\build\Fody.targets" Condition="Exists('..\packages\Fody.3.2.16\build\Fody.targets')" />
