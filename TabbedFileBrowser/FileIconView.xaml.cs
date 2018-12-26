@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace TabbedFileBrowser
 {
@@ -23,21 +24,21 @@ namespace TabbedFileBrowser
         public static readonly DependencyProperty FilePathProperty = DependencyProperty.Register
         (
             "FilePath", 
-            typeof(string), 
+            typeof(FileSystemInfo), 
             typeof(FileIconView), 
             new PropertyMetadata((s, a) =>
             {
-                ((FileIconView)s).FilePath = (string)a.NewValue;
+                ((FileIconView)s).File = (FileSystemInfo)a.NewValue;
             })
         );
 
-        public string FilePath
+        public FileSystemInfo File
         {
-            get => (string)GetValue(FilePathProperty);
+            get => (FileSystemInfo)GetValue(FilePathProperty);
             set
             {
                 SetValue(FilePathProperty, value);
-                LoadIcon(value);
+                image.Source = LoadIcon(value);
             }
         }
 
@@ -46,9 +47,11 @@ namespace TabbedFileBrowser
             InitializeComponent();
         }
 
-        private void LoadIcon(string path)
+        private ImageSource LoadIcon(FileSystemInfo path)
         {
-            text.Text = "(Placeholder icon for " + path + ")";
+            // TODO: check if the icon exists in the cache first
+
+
         }
     }
 }
