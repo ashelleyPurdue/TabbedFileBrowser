@@ -10,8 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -47,7 +45,7 @@ namespace TabbedFileBrowser
                 if (value is DirectoryInfo)
                     return;
 
-                image.Source = LoadIcon(value);
+                image.Source = LoadIcon((FileInfo)value);
             }
         }
 
@@ -56,18 +54,33 @@ namespace TabbedFileBrowser
             InitializeComponent();
         }
 
-        private ImageSource LoadIcon(FileSystemInfo file)
+        private ImageSource LoadIcon(FileInfo file)
         {
             // Check if the icon exists in the cache first
             string ext = file.Extension.ToLower();
             if (iconCache.ContainsKey(ext))
                 return iconCache[ext];
+      
+            // HACK: if it's a network path, make a temp file
+            // with the same file extension and load the icon
+            // from *that*.  This is because ExtractAssociatedIcon
+            // doesn't play nice with network paths
+            string path = file.FullName;
+            if (path.StartsWith(@"\\"))
+            {
+                string tmpPath = Path.GetTempFileName();
+                var tmpFile = new FileInfo(tmpPath);
 
+                tmpPath = Path.ChangeExtension(tmpPath, ext);
+                tmpFile.MoveTo(tmpPath);
+
+                path = tmpPath;
+            }
 
             // It's not in the cache, so load it
             ImageSource imgSrc;
 
-            using (var bmp = Icon.ExtractAssociatedIcon(file.FullName).ToBitmap())
+            using (var bmp = Icon.ExtractAssociatedIcon(path).ToBitmap())
             using (var memory = new MemoryStream())
             {
                 bmp.Save(memory, ImageFormat.Png);

@@ -21,11 +21,11 @@ namespace TabbedFileBrowser
             }
         }
 
-        public static void Copy(this FileSystemInfo file, string dest)
+        public static void Copy(this FileSystemInfo file, string dest, bool overwrite = false)
         {
             switch (file)
             {
-                case FileInfo f:        f.CopyTo(dest); break;
+                case FileInfo f:        f.CopyTo(dest, overwrite); break;
                 case DirectoryInfo f:   DirectoryCopy(f.FullName, dest); break;
             }
         }
