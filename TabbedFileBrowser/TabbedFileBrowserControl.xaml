@@ -164,6 +164,33 @@
 
                     </DockPanel>
 
+                    <!-- Sorting -->
+                    <DockPanel 
+                        DockPanel.Dock="Top"
+                        LastChildFill="False">
+
+                        <ComboBox
+                            DockPanel.Dock="Right"
+                            Width="Auto"
+                            ItemsSource=
+                            "{
+                                Binding ViewModel.SortMethods.Keys,
+                                RelativeSource={RelativeSource AncestorType=local:TabbedFileBrowserControl},
+                                Mode=OneWay
+                            }"
+                            SelectedIndex=
+                            "{
+                                Binding ViewModel.SortMethodIndex,
+                                RelativeSource={RelativeSource AncestorType=local:TabbedFileBrowserControl},
+                                Mode=TwoWay
+                            }"/>
+
+                        <TextBlock
+                            DockPanel.Dock="Right"
+                            Text="Sort by: "/>
+
+                    </DockPanel>
+
                     <!-- VisibleFiles -->
                     <ListBox
                         DockPanel.Dock="Top"

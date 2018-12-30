@@ -30,6 +30,7 @@ namespace TabbedFileBrowser
             {"Name", f => f.Name },
             {"Date", f => f.LastWriteTime }
         };
+        public int SortMethodIndex { get; set; } = 0;
 
         public FilterStringParser ParseFilterString { get; set; } = DefaultFilterStringParser;
 
