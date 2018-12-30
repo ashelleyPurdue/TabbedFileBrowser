@@ -178,9 +178,9 @@
                                 RelativeSource={RelativeSource AncestorType=local:TabbedFileBrowserControl},
                                 Mode=OneWay
                             }"
-                            SelectedIndex=
+                            SelectedItem=
                             "{
-                                Binding SortMethodIndex,
+                                Binding SortMethodKey,
                                 Mode=TwoWay
                             }"/>
 

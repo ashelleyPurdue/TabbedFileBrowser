@@ -14,7 +14,7 @@ namespace TabbedFileBrowser
         string CurrentFolder { get; }
         string FilterString { get; set; }
 
-        int SortMethodIndex { get; set; }
+        string SortMethodKey { get; set; }
 
         bool HasPrevFolder { get; }
         bool HasNextFolder { get; }
