@@ -26,6 +26,7 @@ namespace TabbedFileBrowser
         }
 
         public string FilterString { get; set; }
+        public int SortMethodIndex { get; set; } = 0;
 
         [DependsOn("CurrentFolder")] public bool HasPrevFolder => history.Count > 0;
         [DependsOn("CurrentFolder")] public bool HasNextFolder => futureHistory.Count > 0;
@@ -81,6 +82,9 @@ namespace TabbedFileBrowser
             // Parse the filter string to create a filtering function.
             FilterCondition matchesFilter = parent.ParseFilterString(FilterString);
             bool skipFiltering = String.IsNullOrWhiteSpace(FilterString);
+
+            // Get the sort method
+            var sortMethod = parent.SortMethods.
 
             // Query the current folder for all files that match the filter,
             // and display them in the listbox.

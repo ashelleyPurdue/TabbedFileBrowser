@@ -13,7 +13,6 @@ namespace TabbedFileBrowser
     internal class TabbedFileBrowserViewModel : ITabbedFileBrowserViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public delegate IComparable SortMethod(FileSystemInfo file);
 
         // Public properties
         [AlsoNotifyFor("TabsWithNull")]
@@ -30,7 +29,6 @@ namespace TabbedFileBrowser
             {"Name", f => f.Name },
             {"Date", f => f.LastWriteTime }
         };
-        public int SortMethodIndex { get; set; } = 0;
 
         public FilterStringParser ParseFilterString { get; set; } = DefaultFilterStringParser;
 

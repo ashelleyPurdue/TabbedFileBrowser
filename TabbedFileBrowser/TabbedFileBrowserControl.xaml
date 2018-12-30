@@ -180,8 +180,7 @@
                             }"
                             SelectedIndex=
                             "{
-                                Binding ViewModel.SortMethodIndex,
-                                RelativeSource={RelativeSource AncestorType=local:TabbedFileBrowserControl},
+                                Binding SortMethodIndex,
                                 Mode=TwoWay
                             }"/>
 
