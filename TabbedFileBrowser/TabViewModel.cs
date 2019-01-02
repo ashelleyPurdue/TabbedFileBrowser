@@ -26,6 +26,7 @@ namespace TabbedFileBrowser
         }
 
         public string FilterString { get; set; }
+        public string SortMethodKey { get; set; }
 
         [DependsOn("CurrentFolder")] public bool HasPrevFolder => history.Count > 0;
         [DependsOn("CurrentFolder")] public bool HasNextFolder => futureHistory.Count > 0;
@@ -41,6 +42,8 @@ namespace TabbedFileBrowser
         {
             CurrentFolder = Path.GetFullPath(startFolder);
             this.parent = parent;
+
+            SortMethodKey = parent.SortMethods.First().Key;
 
             Refresh();
         }
@@ -82,12 +85,16 @@ namespace TabbedFileBrowser
             FilterCondition matchesFilter = parent.ParseFilterString(FilterString);
             bool skipFiltering = String.IsNullOrWhiteSpace(FilterString);
 
+            // Get the sort method
+            var sortMethod = parent.SortMethods[SortMethodKey];
+
             // Query the current folder for all files that match the filter,
             // and display them in the listbox.
             // TODO: Apply sorting too.
             var currentFolder = new DirectoryInfo(CurrentFolder);
             VisibleFiles = currentFolder.EnumerateFileSystemInfos()
-                                        .Where(f => skipFiltering || matchesFilter(f));
+                                        .Where(f => skipFiltering || matchesFilter(f))
+                                        .OrderBy(f => sortMethod(f));
         }
 
         public override string ToString() => Title;

@@ -24,6 +24,12 @@ namespace TabbedFileBrowser
         public int SelectedFileIndex { get; set; }
         public FileSystemInfo SelectedFile { get; set; }
 
+        public Dictionary<string, SortMethod> SortMethods { get; set; } = new Dictionary<string, SortMethod>()
+        {
+            {"Name", f => f.Name },
+            {"Date", f => f.LastWriteTime }
+        };
+
         public FilterStringParser ParseFilterString { get; set; } = DefaultFilterStringParser;
 
         [DependsOn("SelectedFileIndex")] public bool OpenNewTabContextMenuEnabled => SelectedFile is DirectoryInfo;
